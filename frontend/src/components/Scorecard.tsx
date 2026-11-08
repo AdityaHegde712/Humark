@@ -43,8 +43,11 @@ export const Scorecard: React.FC<ScorecardProps> = ({
 
   // Wilson confidence interval values
   const wilson = scorecard.wilson_interval;
-  const ciLowerPct = (wilson.ci_lower * 100).toFixed(1);
-  const ciUpperPct = (wilson.ci_upper * 100).toFixed(1);
+  const ciLower = wilson.lower ?? wilson.ci_lower ?? 0;
+  const ciUpper = wilson.upper ?? wilson.ci_upper ?? 0;
+  const ciLowerPct = ((wilson.lower ?? wilson.ci_lower ?? 0) * 100).toFixed(1);
+  const ciUpperPct = ((wilson.upper ?? wilson.ci_upper ?? 0) * 100).toFixed(1);
+  const marginOfErrorPct = ((wilson.margin_of_error ?? (ciUpper - ciLower) / 2) * 100).toFixed(1);
   const isSampleNarrowed = scorecard.total_attempts >= 30;
 
   // Share link copy handler
@@ -296,7 +299,7 @@ export const Scorecard: React.FC<ScorecardProps> = ({
               </span>
               <p className="text-amber-200/90 leading-relaxed">
                 Complete the 3-round verification track to eliminate luck and narrow confidence
-                interval. Current margin of error is &plusmn;{(wilson.margin_of_error * 100).toFixed(1)}%.
+                interval. Current margin of error is &plusmn;{marginOfErrorPct}%.
               </p>
             </div>
           </div>
@@ -309,7 +312,7 @@ export const Scorecard: React.FC<ScorecardProps> = ({
               </span>
               <p className="text-emerald-200/90 leading-relaxed">
                 Evaluation across 30 independent unseen split tests provides robust statistical
-                guarantees. Margin of error narrowed to &plusmn;{(wilson.margin_of_error * 100).toFixed(1)}%.
+                guarantees. Margin of error narrowed to &plusmn;{marginOfErrorPct}%.
               </p>
             </div>
           </div>
@@ -342,8 +345,8 @@ export const Scorecard: React.FC<ScorecardProps> = ({
             <div
               className="absolute top-1 bottom-1 bg-amber-500/30 border-y border-amber-500/50 rounded-sm"
               style={{
-                left: `${Math.max(0, wilson.ci_lower * 100)}%`,
-                width: `${Math.min(100, (wilson.ci_upper - wilson.ci_lower) * 100)}%`,
+                left: `${Math.max(0, ciLower * 100)}%`,
+                width: `${Math.min(100, (ciUpper - ciLower) * 100)}%`,
               }}
             />
 

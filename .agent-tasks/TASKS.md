@@ -51,3 +51,9 @@
 - [x] Task 12: Implement human percentile ranking engine and SVG distribution curve on scorecard
   - Acceptance Criteria: Computes percentile ranking against the 7,030-participant WONO benchmark distribution ($\mu=0.528, \sigma=0.094$); marks Top 2% threshold; renders interactive SVG bell curve on the scorecard marking Human Median, Frontier AI, and User standing; contracts tested in pytest.
   - File Paths: `backend/app/core/percentile.py`, `backend/app/schemas/scorecard.py`, `backend/app/core/scoring.py`, `frontend/src/components/PercentileCurve.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_percentile.py`
+
+## Phase 9: Quality Hardening & Bug Fixes (B-003)
+- [x] Task 13: Resolve SVG entity errors, LaTeX math rendering, Wilson interval naming divergence, dataset bias, and round navigation
+  - Acceptance Criteria: All 72 SVGs parse with zero XML errors; PercentileCurve renders clean Unicode; Wilson confidence intervals display valid bounds without NaN; seed dataset balanced 18 A / 18 B; navigation toggle hides at item 30 and auto-advances incomplete rounds.
+  - File Paths: `backend/app/static/thumbnails/*.svg`, `frontend/src/components/PercentileCurve.tsx`, `frontend/src/api/types.ts`, `frontend/src/components/Scorecard.tsx`, `backend/data/seed_challenges.json`, `frontend/src/components/Header.tsx`, `frontend/src/pages/GamePage.tsx`, `docs/BUGLOG.md`
+

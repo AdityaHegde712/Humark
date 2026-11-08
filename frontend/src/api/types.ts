@@ -77,13 +77,17 @@ export interface RoundAdvanceResponse {
 }
 
 export interface WilsonInterval {
-  p: number;
-  ci_lower: number;
-  ci_upper: number;
-  margin_of_error: number;
-  sample_size: number;
-  is_sample_size_valid: boolean;
-  warning: string | null;
+  lower?: number;
+  upper?: number;
+  center?: number;
+  sample_size_warning?: boolean;
+  p?: number;
+  ci_lower?: number;
+  ci_upper?: number;
+  margin_of_error?: number;
+  sample_size?: number;
+  is_sample_size_valid?: boolean;
+  warning?: string | null;
 }
 
 export interface ModelComparisonItem {

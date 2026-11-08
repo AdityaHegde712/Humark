@@ -122,18 +122,20 @@ export const Header: React.FC<HeaderProps> = ({
           {/* View Toggle (Challenge vs Scorecard) */}
           {onToggleView && totalAttempts > 0 && (
             <div className="flex items-center rounded-md border border-[#27272a] bg-[#18181b] p-0.5">
-              <button
-                type="button"
-                onClick={() => onToggleView('challenge')}
-                className={`inline-flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded transition-colors ${
-                  currentView === 'challenge'
-                    ? 'bg-neutral-800 text-white font-medium'
-                    : 'text-[#a1a1aa] hover:text-[#f4f4f5]'
-                }`}
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Challenge</span>
-              </button>
+              {!(currentRound === 3 && attemptIndex >= totalRoundItems) && (
+                <button
+                  type="button"
+                  onClick={() => onToggleView('challenge')}
+                  className={`inline-flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded transition-colors ${
+                    currentView === 'challenge'
+                      ? 'bg-neutral-800 text-white font-medium'
+                      : 'text-[#a1a1aa] hover:text-[#f4f4f5]'
+                  }`}
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Challenge</span>
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => onToggleView('scorecard')}

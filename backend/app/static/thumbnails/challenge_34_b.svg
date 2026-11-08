@@ -58,7 +58,7 @@
 
   <!-- Subtitle Hook -->
   <text x="640" y="580" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#9e9ea8" text-anchor="middle" letter-spacing="0.5">
-    Growth & Freedom in 2024
+    Growth &amp; Freedom in 2024
   </text>
 
   <!-- Bottom Accent Bar -->

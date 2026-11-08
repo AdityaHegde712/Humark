@@ -88,7 +88,7 @@ export const PercentileCurve: React.FC<PercentileCurveProps> = ({
             </h3>
           </div>
           <p className="text-xs text-zinc-400 mt-0.5">
-            Ranked against WONO empirical study of 7,030 human evaluators ($\mu=52.8\%$, $\sigma=9.4\%$)
+            Ranked against WONO empirical study of 7,030 human evaluators (μ = 52.8%, σ = 9.4%)
           </p>
         </div>
 

@@ -62,3 +62,9 @@
 - **Context**: Replicate the central finding of WONO's empirical study (7,030 humans vs Frontier AI): frontier AI outperformed 98% of humans, but top ~2% of humans beat it by a wide margin.
 - **Decision**: Model human baseline distribution as a Gaussian $\mathcal{N}(\mu=0.528, \sigma=0.094)$ anchored on empirical trial results. Compute user percentile ranking, distance to frontier AI, and render an interactive SVG bell curve visualization on the scorecard.
 - **Consequences**: Connects user scorecard directly to the viral benchmark narrative.
+
+## ADR-011: Strict Asset XML Escaping & Seed Stratification
+- **Status**: Accepted
+- **Context**: Visual benchmark assets must pass strict XML parsers, and evaluation seed datasets must be stratified 50/50 across choice variants to prevent heuristic positional bias.
+- **Decision**: All dynamic text within SVG assets must escape reserved XML characters (`&amp;`). Seed challenges must maintain equal ground truth distribution (18 Variant A / 18 Variant B) across active challenge tracks. Frontend confidence models must tolerate both canonical naming (`lower`/`upper`) and legacy interval keys.
+- **Consequences**: Zero SVG XML parse errors, unbiased evaluation baselines, and robust scorecard metrics without NaN artifacts.

@@ -206,6 +206,10 @@ export const GamePage: React.FC = () => {
         setIsLoading(false);
       }
     } else {
+      if (challenge?.round_completed && (session?.current_round ?? 1) < 3) {
+        await handleAdvanceRound();
+        return;
+      }
       setActiveView('challenge');
       const url = new URL(window.location.href);
       url.searchParams.delete('view');
