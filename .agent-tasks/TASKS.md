@@ -27,7 +27,7 @@
   - File Paths: `backend/app/core/verification.py`, `backend/app/api/verification.py`, `tests/spec/test_verification.py`
 
 ## Phase 5: Scorecard Engine & Wilson Interval Telemetry
-- [ ] Task 07: Scorecard aggregation endpoint with model comparison and Wilson confidence
+- [x] Task 07: Scorecard aggregation endpoint with model comparison and Wilson confidence
   - Acceptance Criteria: Returns overall accuracy, sample size warning, Wilson 95% confidence interval, model head-to-head comparison (beats/ties/losses), and category breakdown.
   - File Paths: `backend/app/core/scoring.py`, `backend/app/api/scorecard.py`, `tests/spec/test_scorecard.py`
 
