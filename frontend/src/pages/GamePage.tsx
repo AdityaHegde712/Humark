@@ -165,17 +165,19 @@ export const GamePage: React.FC = () => {
     setIsResetting(true);
     setError(null);
     try {
-      // Clear URL params
-      window.history.replaceState({}, '', window.location.pathname);
+      // Cleanly clear lastReceipt, scorecard, and any URL query parameters
+      setLastReceipt(null);
+      setScorecard(null);
       setIsSharedView(false);
+      window.history.replaceState({}, '', window.location.pathname);
 
+      // Await resetSession to unconditionally mint a fresh session
       const newSession = await apiClient.resetSession();
       setSession(newSession);
 
+      // Fetch first challenge of Round 1
       const nextChallenge = await apiClient.getNextChallenge();
       setChallenge(nextChallenge);
-      setLastReceipt(null);
-      setScorecard(null);
       setActiveView('challenge');
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Failed to reset benchmark run';
@@ -266,14 +268,27 @@ export const GamePage: React.FC = () => {
         )}
 
         {/* VIEW 1: SCORECARD VIEW */}
-        {!isLoading && activeView === 'scorecard' && scorecard && (
-          <Scorecard
-            scorecard={scorecard}
-            onAdvanceRound={handleAdvanceRound}
-            onResetSession={handleResetSession}
-            isAdvancing={isAdvancing}
-            isSharedView={isSharedView}
-          />
+        {!isLoading && activeView === 'scorecard' && (
+          scorecard ? (
+            <Scorecard
+              scorecard={scorecard}
+              onAdvanceRound={handleAdvanceRound}
+              onResetSession={handleResetSession}
+              isAdvancing={isAdvancing}
+              isSharedView={isSharedView}
+            />
+          ) : (
+            <div className="w-full max-w-xl mx-auto p-8 rounded-2xl bg-[#18181b] border border-[#27272a] text-center flex flex-col items-center space-y-4">
+              <p className="text-sm text-[#a1a1aa]">Scorecard data is not loaded.</p>
+              <button
+                type="button"
+                onClick={() => handleToggleView('scorecard')}
+                className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-semibold text-xs transition-colors"
+              >
+                Load Scorecard
+              </button>
+            </div>
+          )
         )}
 
         {/* VIEW 2: ACTIVE CHALLENGE SCREEN */}
@@ -302,12 +317,9 @@ export const GamePage: React.FC = () => {
           </div>
         )}
 
-        {/* Fallback if activeView === 'challenge' and challenge.round_completed */}
-        {!isLoading &&
-          activeView === 'challenge' &&
-          challenge &&
-          challenge.round_completed &&
-          scorecard && (
+        {/* VIEW 3: ACTIVE VIEW IS CHALLENGE BUT ROUND IS COMPLETED */}
+        {!isLoading && activeView === 'challenge' && challenge && challenge.round_completed && (
+          scorecard ? (
             <Scorecard
               scorecard={scorecard}
               onAdvanceRound={handleAdvanceRound}
@@ -315,7 +327,37 @@ export const GamePage: React.FC = () => {
               isAdvancing={isAdvancing}
               isSharedView={isSharedView}
             />
-          )}
+          ) : (
+            <div className="w-full max-w-xl mx-auto p-8 rounded-2xl bg-[#18181b] border border-[#27272a] text-center flex flex-col items-center space-y-5">
+              <div className="w-12 h-12 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 font-bold text-lg">
+                ✓
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-[#f4f4f5]">Round Completed!</h3>
+                <p className="text-sm text-[#a1a1aa] leading-relaxed">
+                  Round Completed! View your scorecard or advance to the next round.
+                </p>
+              </div>
+              <div className="flex items-center space-x-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => handleToggleView('scorecard')}
+                  className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-semibold text-sm transition-colors shadow-lg shadow-amber-400/10"
+                >
+                  View Scorecard
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAdvanceRound}
+                  disabled={isAdvancing}
+                  className="px-5 py-2.5 rounded-xl bg-[#27272a] hover:bg-[#3f3f46] text-[#f4f4f5] font-semibold text-sm transition-colors disabled:opacity-50"
+                >
+                  {isAdvancing ? 'Advancing...' : 'Advance Round'}
+                </button>
+              </div>
+            </div>
+          )
+        )}
       </main>
 
       {/* Footer */}

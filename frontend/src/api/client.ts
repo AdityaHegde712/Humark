@@ -209,11 +209,20 @@ class HumarkApiClient {
   }
 
   /**
-   * Clear session and initialize a fresh run.
+   * Clear session and force creation of a brand new run via POST /api/sessions/reset.
    */
   public async resetSession(): Promise<GameSessionResponse> {
+    if (typeof document !== 'undefined') {
+      document.cookie = 'humark_session_id=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    }
     this.clearSession();
-    return this.initSession();
+    const data = await this.request<GameSessionResponse>('/api/sessions/reset', {
+      method: 'POST',
+    });
+    if (data.id) {
+      this.setSessionId(data.id);
+    }
+    return data;
   }
 }
 

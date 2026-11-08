@@ -14,6 +14,7 @@ import pytest
 from app.core.game import (
     DuplicateAttemptError,
     RoundCompletedError,
+    create_new_session,
     get_next_unseen_challenge,
     get_or_create_session,
     record_attempt,
@@ -420,3 +421,59 @@ async def test_api_round_completion_flow(seeded_db):
         assert data_11["round_number"] == 1
 
     app.dependency_overrides.clear()
+
+
+@pytest.mark.asyncio
+async def test_session_reset_forces_new_session(seeded_db):
+    """Calling POST /api/sessions/reset unconditionally mints a fresh session."""
+    app.dependency_overrides[get_db] = lambda: seeded_db
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        # 1. Create session and record an attempt
+        res_session = await client.post("/api/sessions")
+        assert res_session.status_code == 201
+        old_session_id = res_session.json()["id"]
+
+        res_next = await client.get(
+            "/api/challenges/next",
+            headers={"X-Session-ID": old_session_id},
+        )
+        assert res_next.status_code == 200
+        challenge_id = res_next.json()["id"]
+
+        res_attempt = await client.post(
+            f"/api/challenges/{challenge_id}/attempt",
+            headers={"X-Session-ID": old_session_id},
+            json={"selected_variant": "A", "time_taken_ms": 1100},
+        )
+        assert res_attempt.status_code == 200
+
+        # Verify old session has 1 attempt
+        res_stats_old = await client.get(
+            "/api/sessions/current",
+            headers={"X-Session-ID": old_session_id},
+        )
+        assert res_stats_old.json()["total_attempts"] == 1
+
+        # 2. Call POST /api/sessions/reset while passing old session's cookie and header
+        res_reset = await client.post(
+            "/api/sessions/reset",
+            headers={
+                "X-Session-ID": old_session_id,
+                "Cookie": f"humark_session_id={old_session_id}",
+            },
+        )
+        assert res_reset.status_code == 201
+        reset_data = res_reset.json()
+        new_session_id = reset_data["id"]
+
+        # 3. Assertions
+        assert new_session_id != old_session_id
+        assert reset_data["total_attempts"] == 0
+        assert reset_data["round_attempts"] == 0
+        assert reset_data["current_round"] == 1
+        assert res_reset.headers.get("X-Session-ID") == new_session_id
+
+    app.dependency_overrides.clear()
+

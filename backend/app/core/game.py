@@ -48,6 +48,19 @@ class RoundCompletedError(GameEngineError):
     pass
 
 
+def create_new_session(db: Session) -> GameSession:
+    """Unconditionally create and persist a fresh game session."""
+    new_session = GameSession(
+        id=str(uuid.uuid4()),
+        current_round=1,
+        status="active",
+    )
+    db.add(new_session)
+    db.commit()
+    db.refresh(new_session)
+    return new_session
+
+
 def get_or_create_session(
     db: Session,
     session_id: str | None = None,
@@ -58,15 +71,7 @@ def get_or_create_session(
         if existing:
             return existing
 
-    new_session = GameSession(
-        id=str(uuid.uuid4()),
-        current_round=1,
-        status="active",
-    )
-    db.add(new_session)
-    db.commit()
-    db.refresh(new_session)
-    return new_session
+    return create_new_session(db)
 
 
 def get_session_stats(db: Session, session_id: str) -> dict:

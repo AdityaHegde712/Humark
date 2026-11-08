@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.core.game import (
     SessionNotFoundError,
+    create_new_session,
     get_or_create_session,
     get_session_stats,
 )
@@ -46,6 +47,36 @@ def create_session(
     response.set_cookie(
         key="humark_session_id",
         value=session.id,
+        max_age=30 * 24 * 3600,
+        path="/",
+        httponly=False,
+        samesite="lax",
+    )
+    response.headers["X-Session-ID"] = session.id
+
+    stats = get_session_stats(db, session.id)
+    return GameSessionResponse(**stats)
+
+
+@router.post(
+    "/reset",
+    response_model=GameSessionResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Force create a new guest session resetting any existing session",
+)
+def reset_session(
+    response: Response,
+    db: Session = Depends(get_db),
+) -> GameSessionResponse:
+    """Create a brand new game session unconditionally, ignoring headers or cookies."""
+    session = create_new_session(db)
+
+    # Set cookie and header for stateless client tracking
+    response.set_cookie(
+        key="humark_session_id",
+        value=session.id,
+        max_age=30 * 24 * 3600,
+        path="/",
         httponly=False,
         samesite="lax",
     )
