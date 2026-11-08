@@ -6,7 +6,7 @@
   - File Paths: `docker-compose.yml`, `backend/Dockerfile`, `backend/pyproject.toml`, `backend/app/main.py`, `frontend/Dockerfile`, `frontend/package.json`, `frontend/src/App.tsx`, `.env.example`
 
 ## Phase 2: Statistical Significance Gate & Data Ingestion
-- [ ] Task 02: Implement statistical significance engine (two-proportion z-test, Wilson intervals) and contract tests
+- [x] Task 02: Implement statistical significance engine (two-proportion z-test, Wilson intervals) and contract tests
   - Acceptance Criteria: `tests/spec/test_significance_gate.py` passes; engine rejects items where $N < 20,000$ per variant or $p \ge 0.05$; computes correct z-scores, p-values, and 95% Wilson confidence intervals.
   - File Paths: `backend/app/core/stats.py`, `tests/spec/test_significance_gate.py`
 - [ ] Task 03: Challenge data model, schema migrations, and JSON ingestion pipeline with validation errors
