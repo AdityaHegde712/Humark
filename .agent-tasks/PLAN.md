@@ -53,12 +53,12 @@ It operates as a monorepo containing a FastAPI backend, PostgreSQL database, and
   - Affected paths: `backend/app/core/stats.py`, `backend/app/models/challenge.py`, `backend/app/schemas/challenge.py`, `backend/app/core/ingestion.py`, `backend/app/api/admin.py`, `backend/data/seed_challenges.json`, `backend/app/static/thumbnails/`, `tests/spec/test_significance_gate.py`, `tests/spec/test_ingestion.py`
   - Exit criteria: Z-test significance gate rejects p >= 0.05 or N < 20,000; 36 bundled demo items with 72 SVGs ingest successfully.
 
-- **Phase 3: Model Baseline Runner & Evaluation Harness (NEXT)**
+- **Phase 3: Model Baseline Runner & Evaluation Harness (COMPLETED)**
   - Dependency: Phase 2
   - Affected paths: `backend/app/eval/`, `backend/app/models/eval_run.py`, `tests/spec/test_eval_runner.py`
   - Exit criteria: Deterministic mock model produces reproducible predictions, tokens, and latency; pre-computes answers for all seed items.
 
-- **Phase 4: Game Engine, Session Management & Anti-Luck Verification**
+- **Phase 4: Game Engine, Session Management & Anti-Luck Verification (NEXT)**
   - Dependency: Phase 3
   - Affected paths: `backend/app/core/game.py`, `backend/app/api/challenges.py`, `backend/app/api/sessions.py`, `tests/spec/test_game_engine.py`
   - Exit criteria: Unseen-item selection guarantees zero repeats across 3 rounds of 10 items; verified status triggers strictly at >=22/30 (cumulative >70%).

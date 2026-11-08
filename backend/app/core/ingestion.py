@@ -6,6 +6,7 @@ from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
 from app.core.stats import validate_significance_gate
+from app.eval.runner import run_baseline_models_for_challenge
 from app.models.challenge import Challenge
 from app.schemas.challenge import ChallengeCreate, IngestionSummary
 
@@ -17,15 +18,18 @@ class IngestionError(Exception):
 def ingest_challenge_item(
     item_data: ChallengeCreate | dict[str, Any],
     db: Session,
+    precompute_baselines: bool = False,
 ) -> Challenge:
     """Validate and ingest a single challenge candidate into the database.
 
     Enforces ADR-002: Hard significance gate (N >= 20,000, p < 0.05).
     Computes CTRs, winning variant, z-score, and p-value automatically.
+    Optionally pre-computes baseline model predictions (ADR-003).
 
     Args:
         item_data: ChallengeCreate schema instance or raw dictionary.
         db: Active SQLAlchemy database session.
+        precompute_baselines: Whether to run baseline models immediately.
 
     Returns:
         Persisted Challenge model instance.
@@ -114,18 +118,24 @@ def ingest_challenge_item(
 
     db.commit()
     db.refresh(challenge)
+
+    if precompute_baselines:
+        run_baseline_models_for_challenge(challenge, db)
+
     return challenge
 
 
 def ingest_batch(
     items: list[ChallengeCreate | dict[str, Any]],
     db: Session,
+    precompute_baselines: bool = False,
 ) -> IngestionSummary:
     """Ingest a batch of challenge items, tracking successes and rejections.
 
     Args:
         items: List of challenge items (dictionaries or schemas).
         db: Active SQLAlchemy database session.
+        precompute_baselines: Whether to pre-compute baseline model predictions.
 
     Returns:
         IngestionSummary containing counts and rejection details.
@@ -140,7 +150,9 @@ def ingest_batch(
             else item.get("title", f"Item #{idx}")
         )
         try:
-            challenge = ingest_challenge_item(item, db)
+            challenge = ingest_challenge_item(
+                item, db, precompute_baselines=precompute_baselines
+            )
             ingested_ids.append(challenge.id)
         except (IngestionError, ValueError, ValidationError, KeyError) as err:
             rejections.append(

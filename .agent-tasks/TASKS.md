@@ -14,7 +14,7 @@
   - File Paths: `backend/app/models/challenge.py`, `backend/app/schemas/challenge.py`, `backend/app/core/ingestion.py`, `backend/data/seed_challenges.json`, `backend/app/static/thumbnails/`
 
 ## Phase 3: Model Baseline Runner & Evaluation Harness
-- [ ] Task 04: Implement deterministic mock vision model & baseline runner with token/cost logging
+- [x] Task 04: Implement deterministic mock vision model & baseline runner with token/cost logging
   - Acceptance Criteria: Mock runner scores seed items deterministically with pinned prompt version `v1.0.0`; records token counts, latency, and predictions; LiteLLM adapter interface ready.
   - File Paths: `backend/app/eval/runner.py`, `backend/app/eval/prompts.py`, `backend/app/models/eval_run.py`, `tests/spec/test_eval_runner.py`
 
