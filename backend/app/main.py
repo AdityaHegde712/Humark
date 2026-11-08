@@ -10,6 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
 from app.api.admin import router as admin_router
+from app.api.challenges import router as challenges_router
+from app.api.sessions import router as sessions_router
 from app.db.session import init_db
 
 
@@ -51,6 +53,8 @@ app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 # Include API routers
 app.include_router(admin_router)
+app.include_router(challenges_router)
+app.include_router(sessions_router)
 
 
 @app.get("/health", tags=["system"])

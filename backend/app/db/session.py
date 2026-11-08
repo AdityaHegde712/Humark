@@ -10,6 +10,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.db.base import Base
+import app.models  # noqa: F401
 
 
 def get_database_url() -> str:

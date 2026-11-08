@@ -19,9 +19,9 @@
   - File Paths: `backend/app/eval/runner.py`, `backend/app/eval/prompts.py`, `backend/app/models/eval_run.py`, `tests/spec/test_eval_runner.py`
 
 ## Phase 4: Game Engine, Session Management & Anti-Luck Verification
-- [ ] Task 05: Session management, backend unseen-item selection, and attempt submission
+- [x] Task 05: Session management, backend unseen-item selection, and attempt submission
   - Acceptance Criteria: Unseen items selected via SQL query filtering previous attempts for session; answer submission immediately returns receipt with ground truth + model answers; guarantees no duplicate items.
-  - File Paths: `backend/app/models/session.py`, `backend/app/core/game.py`, `backend/app/api/challenges.py`, `backend/app/api/sessions.py`, `tests/spec/test_game_engine.py`
+  - File Paths: `backend/app/models/session.py`, `backend/app/schemas/session.py`, `backend/app/core/game.py`, `backend/app/api/challenges.py`, `backend/app/api/sessions.py`, `tests/spec/test_game_engine.py`
 - [ ] Task 06: Verification state machine & round progression (3 rounds x 10 items)
   - Acceptance Criteria: Enforces 3 rounds of 10 items; computes cumulative accuracy; marks `verified=true` strictly when cumulative accuracy >70% ($\ge 22/30$); logs verification audit event.
   - File Paths: `backend/app/core/verification.py`, `backend/app/api/verification.py`, `tests/spec/test_verification.py`
