@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
+from app.core.percentile import calculate_human_percentile
 from app.core.stats import calculate_wilson_score_interval
 from app.core.verification import (
     ITEMS_PER_ROUND,
@@ -76,6 +77,11 @@ def calculate_session_scorecard(db: Session, session_id: str) -> ScorecardRespon
         successes=correct_attempts,
         total=total_attempts,
         confidence=0.95,
+    )
+
+    percentile_benchmark = calculate_human_percentile(
+        accuracy=accuracy,
+        total_attempts=total_attempts,
     )
 
     rounds_completed = 0
@@ -235,6 +241,7 @@ def calculate_session_scorecard(db: Session, session_id: str) -> ScorecardRespon
         is_verified=is_verified,
         model_comparisons=model_comparisons,
         category_breakdown=category_breakdown,
+        percentile_benchmark=percentile_benchmark,
         verification_audit=verification_audit_summary,
         verification_hash=verification_hash,
     )

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ScorecardResponse, ModelComparisonItem } from '../api/types';
 import VerificationBadge from './VerificationBadge';
+import PercentileCurve from './PercentileCurve';
 
 export interface ScorecardProps {
   scorecard: ScorecardResponse;
@@ -256,6 +257,11 @@ export const Scorecard: React.FC<ScorecardProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Top 2% Human Edge Percentile Curve */}
+      {scorecard.percentile_benchmark && (
+        <PercentileCurve percentileBenchmark={scorecard.percentile_benchmark} />
+      )}
 
       {/* Statistical Confidence Section */}
       <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6 sm:p-8 space-y-6">

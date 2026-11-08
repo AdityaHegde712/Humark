@@ -56,3 +56,9 @@
   2. `backend/app/main.py` FastAPI `lifespan` checks `auto_seed_if_empty()` on startup, ensuring that standalone server runs and test runners also seed automatically when encountering an unseeded database.
   All 36 seed challenges and 108 model predictions are ingested idempotently.
 - **Consequences**: Out-of-the-box playable experience on clean clone.
+
+## ADR-010: Top 2% Human Edge Percentile Distribution Model
+- **Status**: Accepted
+- **Context**: Replicate the central finding of WONO's empirical study (7,030 humans vs Frontier AI): frontier AI outperformed 98% of humans, but top ~2% of humans beat it by a wide margin.
+- **Decision**: Model human baseline distribution as a Gaussian $\mathcal{N}(\mu=0.528, \sigma=0.094)$ anchored on empirical trial results. Compute user percentile ranking, distance to frontier AI, and render an interactive SVG bell curve visualization on the scorecard.
+- **Consequences**: Connects user scorecard directly to the viral benchmark narrative.

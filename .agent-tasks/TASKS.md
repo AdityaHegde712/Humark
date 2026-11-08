@@ -46,3 +46,8 @@
 - [x] Task 11: Production readiness audit, E2E verification test, and comprehensive documentation
   - Acceptance Criteria: `docker compose up` verified working end-to-end; comprehensive README with architecture, stats explanation, and model integration guide; CODEBASE.md generated.
   - File Paths: `README.md`, `CODEBASE.md`, `tests/integration/test_e2e_gameplay.py`
+
+## Phase 8: Feature Deepening — The "Top 2% Human Edge" Percentile Engine
+- [x] Task 12: Implement human percentile ranking engine and SVG distribution curve on scorecard
+  - Acceptance Criteria: Computes percentile ranking against the 7,030-participant WONO benchmark distribution ($\mu=0.528, \sigma=0.094$); marks Top 2% threshold; renders interactive SVG bell curve on the scorecard marking Human Median, Frontier AI, and User standing; contracts tested in pytest.
+  - File Paths: `backend/app/core/percentile.py`, `backend/app/schemas/scorecard.py`, `backend/app/core/scoring.py`, `frontend/src/components/PercentileCurve.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_percentile.py`

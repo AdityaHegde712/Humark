@@ -7,7 +7,14 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from app.core.percentile import PercentileBenchmark
 from app.core.stats import WilsonInterval
+
+
+class PercentileBenchmarkResponse(PercentileBenchmark):
+    """Percentile benchmark response schema for API clients."""
+
+    pass
 
 
 class ModelComparisonItem(BaseModel):
@@ -77,6 +84,10 @@ class ScorecardResponse(BaseModel):
     accuracy: float = Field(description="Raw accuracy ratio (correct / total)")
     wilson_interval: WilsonInterval = Field(
         description="Wilson score 95% confidence interval and sample size warning"
+    )
+    percentile_benchmark: PercentileBenchmarkResponse | None = Field(
+        default=None,
+        description="Human population percentile ranking and bell curve telemetry",
     )
     average_time_taken_ms: float = Field(
         description="Mean decision latency in milliseconds"

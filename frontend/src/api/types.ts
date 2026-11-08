@@ -112,12 +112,25 @@ export interface VerificationAuditSummary {
   round_3_correct: number;
 }
 
+export interface PercentileBenchmarkResponse {
+  accuracy: number;
+  z_score: number;
+  percentile: number;
+  is_top_2_percent: boolean;
+  beats_frontier_ai: boolean;
+  tier_label: string;
+  curve_points: [number, number][];
+  user_point: [number, number];
+  frontier_point: [number, number];
+}
+
 export interface ScorecardResponse {
   session_id: string;
   total_attempts: number;
   correct_attempts: number;
   accuracy: number;
   wilson_interval: WilsonInterval;
+  percentile_benchmark?: PercentileBenchmarkResponse | null;
   average_time_taken_ms: number;
   current_round: number;
   rounds_completed: number;
