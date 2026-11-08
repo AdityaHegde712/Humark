@@ -68,15 +68,13 @@ It operates as a monorepo containing a FastAPI backend, PostgreSQL database, and
   - Affected paths: `backend/app/core/scoring.py`, `backend/app/api/scorecard.py`, `tests/spec/test_scorecard.py`
   - Exit criteria: Computes overall accuracy, Wilson 95% confidence intervals, and head-to-head model differentials.
 
-- **Phase 6: Frontend Challenge UI & Interactive Scorecard (IN PROGRESS)**
+- **Phase 6: Frontend Challenge UI & Interactive Scorecard (COMPLETED)**
   - Dependency: Phase 5
   - Affected paths: `frontend/src/`
-  - Completed: Task 08 (API client, dark theme shell, header, challenge card interface, and gameplay assembly)
-  - Next: Task 09 (Receipt modal and model comparison reveal)
+  - Completed: Task 08 (API client, dark theme shell, header, challenge card interface), Task 09 (Receipt modal and model comparison reveal), Task 10 (Scorecard view, verification badges, and round progression UI)
   - Exit criteria: Complete playable loop: Round 1 launch -> ~30s challenge card -> receipt reveal -> scorecard -> rounds 2 & 3 verification track.
 
-
-- **Phase 7: End-to-End Hardening & Documentation**
+- **Phase 7: End-to-End Hardening & Documentation (READY)**
   - Dependency: Phase 6
   - Affected paths: `README.md`, `CODEBASE.md`, docker verification
   - Exit criteria: Production readiness review passes; zero-setup `docker compose up` verified on clean clone.

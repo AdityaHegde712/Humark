@@ -1,43 +1,72 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-  AlertCircle,
-  ArrowRight,
-  Trophy,
-  RefreshCw,
-} from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import Header from '../components/Header';
 import ChallengeCard from '../components/ChallengeCard';
 import ReceiptModal from '../components/ReceiptModal';
+import Scorecard from '../components/Scorecard';
 import apiClient, { ApiError } from '../api/client';
 import {
   AttemptReceipt,
   GameSessionResponse,
   NextChallengeResponse,
+  ScorecardResponse,
 } from '../api/types';
 
 export const GamePage: React.FC = () => {
   const [session, setSession] = useState<GameSessionResponse | null>(null);
   const [challenge, setChallenge] = useState<NextChallengeResponse | null>(null);
   const [lastReceipt, setLastReceipt] = useState<AttemptReceipt | null>(null);
+  const [scorecard, setScorecard] = useState<ScorecardResponse | null>(null);
+  const [activeView, setActiveView] = useState<'challenge' | 'scorecard'>('challenge');
+  const [isSharedView, setIsSharedView] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isAdvancing, setIsAdvancing] = useState<boolean>(false);
   const [isResetting, setIsResetting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch session telemetry and active challenge
+  // Fetch session telemetry and active challenge or shared scorecard
   const loadGameData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      // Initialize or retrieve existing session
+      const searchParams = new URLSearchParams(window.location.search);
+      const sharedSessionId = searchParams.get('session');
+      const viewParam = searchParams.get('view');
+
+      // 1. Shared Scorecard Mode: direct inspect without overwriting active session
+      if (sharedSessionId) {
+        setIsSharedView(true);
+        const sc = await apiClient.getScorecard(sharedSessionId);
+        setScorecard(sc);
+        setActiveView('scorecard');
+        setIsLoading(false);
+        return;
+      }
+
+      setIsSharedView(false);
+
+      // 2. Initialize or retrieve current guest session
       const sessionData = await apiClient.initSession();
       setSession(sessionData);
 
-      // Fetch next unseen challenge
+      // 3. Fetch next unseen challenge in session
       const nextChallenge = await apiClient.getNextChallenge();
       setChallenge(nextChallenge);
       setLastReceipt(null);
+
+      // 4. If round is completed or explicit view=scorecard parameter is present
+      if (nextChallenge.round_completed || viewParam === 'scorecard') {
+        try {
+          const sc = await apiClient.getScorecard(sessionData.id);
+          setScorecard(sc);
+          setActiveView('scorecard');
+        } catch (scErr) {
+          console.warn('Unable to load session scorecard:', scErr);
+        }
+      } else {
+        setActiveView('challenge');
+      }
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Failed to connect to Humark API';
       setError(msg);
@@ -78,6 +107,20 @@ export const GamePage: React.FC = () => {
       const nextChallenge = await apiClient.getNextChallenge();
       setChallenge(nextChallenge);
       setLastReceipt(null);
+
+      // When round is finished, automatically load and display the Scorecard
+      if (nextChallenge.round_completed) {
+        const sc = await apiClient.getScorecard();
+        setScorecard(sc);
+        setActiveView('scorecard');
+
+        // Persist view parameter in URL
+        const url = new URL(window.location.href);
+        url.searchParams.set('view', 'scorecard');
+        window.history.replaceState({}, '', url.toString());
+      } else {
+        setActiveView('challenge');
+      }
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Failed to retrieve next challenge';
       setError(msg);
@@ -92,8 +135,22 @@ export const GamePage: React.FC = () => {
     setError(null);
     try {
       await apiClient.advanceRound();
-      // Reload game data for new round
-      await loadGameData();
+
+      // Refresh session state
+      const updatedSession = await apiClient.getCurrentSession();
+      setSession(updatedSession);
+
+      // Seamlessly retrieve first unseen item of next round
+      const nextChallenge = await apiClient.getNextChallenge();
+      setChallenge(nextChallenge);
+      setLastReceipt(null);
+      setScorecard(null);
+      setActiveView('challenge');
+
+      // Clear view query param
+      const url = new URL(window.location.href);
+      url.searchParams.delete('view');
+      window.history.replaceState({}, '', url.pathname);
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Failed to advance round';
       setError(msg);
@@ -108,11 +165,18 @@ export const GamePage: React.FC = () => {
     setIsResetting(true);
     setError(null);
     try {
+      // Clear URL params
+      window.history.replaceState({}, '', window.location.pathname);
+      setIsSharedView(false);
+
       const newSession = await apiClient.resetSession();
       setSession(newSession);
+
       const nextChallenge = await apiClient.getNextChallenge();
       setChallenge(nextChallenge);
       setLastReceipt(null);
+      setScorecard(null);
+      setActiveView('challenge');
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Failed to reset benchmark run';
       setError(msg);
@@ -121,12 +185,39 @@ export const GamePage: React.FC = () => {
     }
   };
 
+  // Toggle between challenge mode and scorecard
+  const handleToggleView = async (targetView: 'challenge' | 'scorecard') => {
+    if (targetView === 'scorecard') {
+      setIsLoading(true);
+      try {
+        const sc = await apiClient.getScorecard();
+        setScorecard(sc);
+        setActiveView('scorecard');
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('view', 'scorecard');
+        window.history.replaceState({}, '', url.toString());
+      } catch (err) {
+        const msg = err instanceof ApiError ? err.message : 'Failed to load scorecard';
+        setError(msg);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setActiveView('challenge');
+      const url = new URL(window.location.href);
+      url.searchParams.delete('view');
+      window.history.replaceState({}, '', url.pathname);
+    }
+  };
+
   // Current stats values
-  const currentRound = challenge?.round_number ?? session?.current_round ?? 1;
+  const currentRound =
+    scorecard?.current_round ?? challenge?.round_number ?? session?.current_round ?? 1;
   const attemptIndex = challenge?.attempt_index ?? session?.round_attempts ?? 1;
   const totalRoundItems = challenge?.total_round_items ?? 10;
-  const totalCorrect = session?.correct_attempts ?? 0;
-  const totalAttempts = session?.total_attempts ?? 0;
+  const totalCorrect = scorecard?.correct_attempts ?? session?.correct_attempts ?? 0;
+  const totalAttempts = scorecard?.total_attempts ?? session?.total_attempts ?? 0;
 
   return (
     <div className="min-h-screen bg-[#121212] text-[#f4f4f5] flex flex-col font-sans selection:bg-neutral-800">
@@ -139,6 +230,8 @@ export const GamePage: React.FC = () => {
         totalAttempts={totalAttempts}
         onResetSession={handleResetSession}
         isResetting={isResetting}
+        currentView={activeView}
+        onToggleView={totalAttempts > 0 ? handleToggleView : undefined}
       />
 
       {/* Main Gameplay Shell */}
@@ -165,78 +258,26 @@ export const GamePage: React.FC = () => {
           <div className="flex flex-col items-center justify-center py-20 space-y-4">
             <div className="w-10 h-10 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
             <div className="text-sm text-[#a1a1aa] font-medium tracking-wide">
-              Loading benchmark challenge...
+              {activeView === 'scorecard'
+                ? 'Loading benchmark scorecard...'
+                : 'Loading benchmark challenge...'}
             </div>
           </div>
         )}
 
-        {/* Round Completed / Exhausted State */}
-        {!isLoading && challenge && challenge.round_completed && (
-          <div className="w-full max-w-xl mx-auto border border-[#27272a] bg-[#18181b] rounded-2xl p-8 text-center space-y-6 shadow-xl">
-            <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto text-amber-400">
-              <Trophy className="w-7 h-7" />
-            </div>
-
-            <div>
-              <div className="text-xs font-mono uppercase tracking-widest text-amber-400 mb-1">
-                Round {currentRound} Complete
-              </div>
-              <h2 className="text-2xl font-bold text-[#f4f4f5]">
-                {currentRound >= 3
-                  ? 'Verification Benchmark Finalized'
-                  : `Ready for Round ${currentRound + 1}`}
-              </h2>
-              <p className="text-sm text-[#a1a1aa] mt-2 leading-relaxed">
-                {currentRound >= 3
-                  ? 'You have evaluated all 30 unseen thumbnail split tests. Your tamper-evident verification receipt is ready.'
-                  : `You evaluated 10 items in Round ${currentRound}. Continue to the next verification round without repeat challenges.`}
-              </p>
-            </div>
-
-            {/* Score Summary Card */}
-            <div className="grid grid-cols-2 gap-4 border border-[#27272a] bg-[#121212] rounded-xl p-4">
-              <div>
-                <div className="text-xs text-[#a1a1aa]">Round Score</div>
-                <div className="text-xl font-bold font-mono text-[#f4f4f5] mt-0.5">
-                  {totalCorrect} / {totalAttempts}
-                </div>
-              </div>
-              <div>
-                <div className="text-xs text-[#a1a1aa]">Accuracy</div>
-                <div className="text-xl font-bold font-mono text-emerald-400 mt-0.5">
-                  {totalAttempts > 0 ? ((totalCorrect / totalAttempts) * 100).toFixed(1) : 0}%
-                </div>
-              </div>
-            </div>
-
-            {/* Advance or Scorecard Action */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              {currentRound < 3 ? (
-                <button
-                  type="button"
-                  onClick={handleAdvanceRound}
-                  disabled={isAdvancing}
-                  className="flex-1 py-3 px-5 rounded-lg bg-white hover:bg-neutral-200 text-black font-semibold text-sm transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
-                >
-                  <span>{isAdvancing ? 'Advancing...' : `Advance to Round ${currentRound + 1}`}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleResetSession}
-                  className="flex-1 py-3 px-5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-semibold text-sm transition-colors flex items-center justify-center space-x-2"
-                >
-                  <RefreshCw className="w-4 h-4" />
-                  <span>Start New Run</span>
-                </button>
-              )}
-            </div>
-          </div>
+        {/* VIEW 1: SCORECARD VIEW */}
+        {!isLoading && activeView === 'scorecard' && scorecard && (
+          <Scorecard
+            scorecard={scorecard}
+            onAdvanceRound={handleAdvanceRound}
+            onResetSession={handleResetSession}
+            isAdvancing={isAdvancing}
+            isSharedView={isSharedView}
+          />
         )}
 
-        {/* Active Challenge Screen */}
-        {!isLoading && challenge && !challenge.round_completed && (
+        {/* VIEW 2: ACTIVE CHALLENGE SCREEN */}
+        {!isLoading && activeView === 'challenge' && challenge && !challenge.round_completed && (
           <div className="w-full flex flex-col space-y-6">
             {/* Ground Truth Receipt Modal & Model Comparison Reveal */}
             {lastReceipt && (
@@ -260,6 +301,21 @@ export const GamePage: React.FC = () => {
             />
           </div>
         )}
+
+        {/* Fallback if activeView === 'challenge' and challenge.round_completed */}
+        {!isLoading &&
+          activeView === 'challenge' &&
+          challenge &&
+          challenge.round_completed &&
+          scorecard && (
+            <Scorecard
+              scorecard={scorecard}
+              onAdvanceRound={handleAdvanceRound}
+              onResetSession={handleResetSession}
+              isAdvancing={isAdvancing}
+              isSharedView={isSharedView}
+            />
+          )}
       </main>
 
       {/* Footer */}

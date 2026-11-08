@@ -1,5 +1,5 @@
 import React from 'react';
-import { RotateCcw, Flame, Trophy } from 'lucide-react';
+import { RotateCcw, Flame, Trophy, BarChart3, LayoutGrid } from 'lucide-react';
 
 export interface HeaderProps {
   currentRound: number;
@@ -9,6 +9,8 @@ export interface HeaderProps {
   totalAttempts: number;
   onResetSession: () => void;
   isResetting?: boolean;
+  currentView?: 'challenge' | 'scorecard';
+  onToggleView?: (view: 'challenge' | 'scorecard') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,6 +21,8 @@ export const Header: React.FC<HeaderProps> = ({
   totalAttempts = 0,
   onResetSession,
   isResetting = false,
+  currentView = 'challenge',
+  onToggleView,
 }) => {
   // Round label resolver
   const getRoundLabel = (round: number): { title: string; subtitle: string; color: string } => {
@@ -114,6 +118,36 @@ export const Header: React.FC<HeaderProps> = ({
               ({accuracyPct}%)
             </span>
           </div>
+
+          {/* View Toggle (Challenge vs Scorecard) */}
+          {onToggleView && totalAttempts > 0 && (
+            <div className="flex items-center rounded-md border border-[#27272a] bg-[#18181b] p-0.5">
+              <button
+                type="button"
+                onClick={() => onToggleView('challenge')}
+                className={`inline-flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded transition-colors ${
+                  currentView === 'challenge'
+                    ? 'bg-neutral-800 text-white font-medium'
+                    : 'text-[#a1a1aa] hover:text-[#f4f4f5]'
+                }`}
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Challenge</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => onToggleView('scorecard')}
+                className={`inline-flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded transition-colors ${
+                  currentView === 'scorecard'
+                    ? 'bg-neutral-800 text-white font-medium'
+                    : 'text-[#a1a1aa] hover:text-[#f4f4f5]'
+                }`}
+              >
+                <BarChart3 className="w-3.5 h-3.5" />
+                <span>Scorecard</span>
+              </button>
+            </div>
+          )}
 
           {/* Reset / New Run Button */}
           <button
