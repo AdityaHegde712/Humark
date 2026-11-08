@@ -35,3 +35,15 @@
 - **Context**: Replicate the feel of the Lovable demo while adhering to User Decision Profile.
 - **Decision**: Dark minimal flat UI (`#121212` background, `#262626` hairline borders, `#e0e0e0` text, high-contrast accent), Tailwind CSS, Lucide icons, responsive card layouts, no Bootstrap.
 - **Consequences**: Clean, fast, modern developer-centric UX.
+
+## ADR-007: Quick Mode Git Workflow
+- **Status**: Accepted
+- **Context**: Streamline development velocity and task commits.
+- **Decision**: Locked to Quick Mode: single `main` branch, linear commits, no dev/feature branches.
+- **Consequences**: Direct commits to main after each verified task phase.
+
+## ADR-008: OpenRouter LLM Provider Target
+- **Status**: Accepted
+- **Context**: Frontier multimodal model benchmarking needs standardized access to vision models without managing multiple vendor SDKs.
+- **Decision**: OpenRouter (`OPENROUTER_API_KEY`) is the primary provider target for live frontier models; deterministic mock runner remains default zero-key runner. Real keys are never written to version control.
+- **Consequences**: Flexible multi-model access including free-tier models without vendor lock-in.

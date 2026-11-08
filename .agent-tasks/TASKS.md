@@ -1,7 +1,7 @@
 # Humark Task Master Checklist
 
 ## Phase 1: Project Setup & Monorepo Foundation
-- [ ] Task 01: Scaffold monorepo structure, Docker Compose, FastAPI skeleton, Vite React setup, and `.env.example`
+- [x] Task 01: Scaffold monorepo structure, Docker Compose, FastAPI skeleton, Vite React setup, and `.env.example`
   - Acceptance Criteria: `docker compose build` succeeds; backend `/health` returns status ok; frontend displays dark theme skeleton on port 5173; `.env.example` lists configuration placeholders.
   - File Paths: `docker-compose.yml`, `backend/Dockerfile`, `backend/pyproject.toml`, `backend/app/main.py`, `frontend/Dockerfile`, `frontend/package.json`, `frontend/src/App.tsx`, `.env.example`
 
