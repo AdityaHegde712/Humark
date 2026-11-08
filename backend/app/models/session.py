@@ -1,6 +1,7 @@
 """SQLAlchemy data models for gameplay sessions and challenge attempts."""
 
 import datetime
+from typing import TYPE_CHECKING
 import uuid
 
 from sqlalchemy import (
@@ -15,6 +16,10 @@ from sqlalchemy import (
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+
+if TYPE_CHECKING:
+    from app.models.challenge import Challenge
+    from app.models.verification import VerificationAuditLog
 
 
 class GameSession(Base):
@@ -54,6 +59,15 @@ class GameSession(Base):
     attempts: Mapped[list["SessionAttempt"]] = relationship(
         "SessionAttempt",
         back_populates="session",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+    # Verification audit log (if verified or evaluated)
+    verification_audit: Mapped["VerificationAuditLog | None"] = relationship(
+        "VerificationAuditLog",
+        back_populates="session",
+        uselist=False,
         cascade="all, delete-orphan",
         lazy="selectin",
     )
