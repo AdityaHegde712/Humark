@@ -3,6 +3,7 @@
 *.env
 !.env.example
 start.txt
+TODO.md
 
 # Python
 __pycache__/
