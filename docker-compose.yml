@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: humark_password
       POSTGRES_DB: humark
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Maps host 5433 -> container 5432
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -25,14 +25,14 @@ services:
     restart: unless-stopped
     command: sh -c "python -m app.scripts.seed && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
       DATABASE_URL: postgresql+asyncpg://humark:humark_password@db:5432/humark
       SYNC_DATABASE_URL: postgresql://humark:humark_password@db:5432/humark
       BACKEND_PORT: 8000
       FRONTEND_PORT: 5173
       MOCK_MODEL_SEED: 42
-      CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+      CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173,http://localhost:8001,http://127.0.0.1:8001
       ENVIRONMENT: development
     volumes:
       - ./backend:/app
@@ -49,7 +49,8 @@ services:
     ports:
       - "5173:5173"
     environment:
-      VITE_API_URL: http://localhost:8000
+      VITE_API_URL: http://localhost:8001
+      VITE_BACKEND_TARGET: http://backend:8000
     volumes:
       - ./frontend:/app
       - /app/node_modules
