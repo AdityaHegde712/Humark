@@ -8,11 +8,13 @@ export default {
     extend: {
       colors: {
         background: '#121212',
-        surface: '#181818',
-        'surface-hover': '#202020',
-        border: '#262626',
-        text: '#e0e0e0',
-        'text-muted': '#a0a0a0',
+        card: '#18181b',
+        surface: '#18181b',
+        'surface-hover': '#222226',
+        border: '#27272a',
+        'border-subtle': '#27272a',
+        text: '#f4f4f5',
+        'text-muted': '#a1a1aa',
         accent: {
           blue: '#3b82f6',
           emerald: '#10b981',

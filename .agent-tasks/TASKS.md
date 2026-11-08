@@ -32,9 +32,9 @@
   - File Paths: `backend/app/core/scoring.py`, `backend/app/api/scorecard.py`, `tests/spec/test_scorecard.py`
 
 ## Phase 6: Frontend Challenge UI & Interactive Scorecard
-- [ ] Task 08: Frontend core shell, dark theme layout, and challenge card interface
+- [x] Task 08: Frontend core shell, dark theme layout, and challenge card interface
   - Acceptance Criteria: Responsive UI (#121212 theme, hairline borders); displays A/B thumbnail cards with ~30s progress feel; supports keyboard/click selection.
-  - File Paths: `frontend/src/components/ChallengeCard.tsx`, `frontend/src/components/Header.tsx`, `frontend/src/index.css`
+  - File Paths: `frontend/src/components/ChallengeCard.tsx`, `frontend/src/components/Header.tsx`, `frontend/src/index.css`, `frontend/src/api/client.ts`, `frontend/src/pages/GamePage.tsx`
 - [ ] Task 09: Receipt modal and model comparison reveal
   - Acceptance Criteria: Immediately on selection, reveals ground truth winner, actual CTR, impression count, p-value, and how each baseline model answered.
   - File Paths: `frontend/src/components/ReceiptModal.tsx`, `frontend/src/components/ModelBadge.tsx`

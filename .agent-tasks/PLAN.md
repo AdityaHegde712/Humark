@@ -58,20 +58,23 @@ It operates as a monorepo containing a FastAPI backend, PostgreSQL database, and
   - Affected paths: `backend/app/eval/`, `backend/app/models/eval_run.py`, `tests/spec/test_eval_runner.py`
   - Exit criteria: Deterministic mock model produces reproducible predictions, tokens, and latency; pre-computes answers for all seed items.
 
-- **Phase 4: Game Engine, Session Management & Anti-Luck Verification (NEXT)**
+- **Phase 4: Game Engine, Session Management & Anti-Luck Verification (COMPLETED)**
   - Dependency: Phase 3
-  - Affected paths: `backend/app/core/game.py`, `backend/app/api/challenges.py`, `backend/app/api/sessions.py`, `tests/spec/test_game_engine.py`
+  - Affected paths: `backend/app/core/game.py`, `backend/app/api/challenges.py`, `backend/app/api/sessions.py`, `backend/app/core/verification.py`, `backend/app/api/verification.py`, `tests/spec/test_game_engine.py`, `tests/spec/test_verification.py`
   - Exit criteria: Unseen-item selection guarantees zero repeats across 3 rounds of 10 items; verified status triggers strictly at >=22/30 (cumulative >70%).
 
-- **Phase 5: Scorecard Engine & Wilson Interval Telemetry**
+- **Phase 5: Scorecard Engine & Wilson Interval Telemetry (COMPLETED)**
   - Dependency: Phase 4
   - Affected paths: `backend/app/core/scoring.py`, `backend/app/api/scorecard.py`, `tests/spec/test_scorecard.py`
   - Exit criteria: Computes overall accuracy, Wilson 95% confidence intervals, and head-to-head model differentials.
 
-- **Phase 6: Frontend Challenge UI & Interactive Scorecard**
+- **Phase 6: Frontend Challenge UI & Interactive Scorecard (IN PROGRESS)**
   - Dependency: Phase 5
   - Affected paths: `frontend/src/`
+  - Completed: Task 08 (API client, dark theme shell, header, challenge card interface, and gameplay assembly)
+  - Next: Task 09 (Receipt modal and model comparison reveal)
   - Exit criteria: Complete playable loop: Round 1 launch -> ~30s challenge card -> receipt reveal -> scorecard -> rounds 2 & 3 verification track.
+
 
 - **Phase 7: End-to-End Hardening & Documentation**
   - Dependency: Phase 6
