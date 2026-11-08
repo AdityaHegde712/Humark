@@ -65,11 +65,24 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({
         return;
       }
 
-      const key = e.key.toLowerCase();
-      if (key === '1' || key === 'a') {
+      const isOptionA =
+        e.key === '1' ||
+        e.code === 'Digit1' ||
+        e.code === 'Numpad1' ||
+        e.key.toLowerCase() === 'a' ||
+        e.code === 'KeyA';
+
+      const isOptionB =
+        e.key === '2' ||
+        e.code === 'Digit2' ||
+        e.code === 'Numpad2' ||
+        e.key.toLowerCase() === 'b' ||
+        e.code === 'KeyB';
+
+      if (isOptionA) {
         e.preventDefault();
         handleSelect('A');
-      } else if (key === '2' || key === 'b') {
+      } else if (isOptionB) {
         e.preventDefault();
         handleSelect('B');
       }
