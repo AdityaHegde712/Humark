@@ -177,6 +177,7 @@ def test_scorecard_round_1_ten_attempts(seeded_db_30):
     assert "mock-frontier-v1" in model_names
     assert "mock-compact-v1" in model_names
     assert "mock-heuristic-v1" in model_names
+    assert sorted(scorecard.available_models) == sorted(model_names)
 
     for comp in scorecard.model_comparisons:
         # Beats + losses + ties must equal 10

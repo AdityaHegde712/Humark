@@ -145,7 +145,7 @@ def evaluate_verification(db: Session, session_id: str) -> VerificationResult:
         1 for a in attempts if a.round_number == 3 and a.is_correct
     )
     total_correct = round_1_correct + round_2_correct + round_3_correct
-    cumulative_accuracy = round(total_correct / len(attempts) * 100.0, 2)
+    cumulative_accuracy = round(total_correct / len(attempts), 4)
     is_verified = total_correct >= VERIFICATION_THRESHOLD_CORRECT
 
     session.status = "verified" if is_verified else "failed"
@@ -246,7 +246,7 @@ def get_verification_status(
 
     correct_so_far = sum(1 for a in attempts if a.is_correct)
     accuracy = (
-        round(correct_so_far / total_attempts * 100.0, 2)
+        round(correct_so_far / total_attempts, 4)
         if total_attempts > 0
         else None
     )

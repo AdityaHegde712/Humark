@@ -131,11 +131,13 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
         })
       : new Date().toLocaleDateString();
 
-    const cumulativePct = auditSummary
-      ? (auditSummary.cumulative_accuracy * 100).toFixed(1)
+    const rawAccuracy = auditSummary
+      ? auditSummary.cumulative_accuracy
       : totalAttempts > 0
-      ? ((correctAttempts / totalAttempts) * 100).toFixed(1)
-      : '70.0';
+      ? correctAttempts / totalAttempts
+      : 0.7;
+    const normalized = rawAccuracy > 1.0 ? rawAccuracy : rawAccuracy * 100;
+    const cumulativePct = normalized.toFixed(1);
 
     return (
       <div

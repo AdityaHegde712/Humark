@@ -9,16 +9,11 @@ import uuid
 
 from sqlalchemy.orm import Session
 
+from app.core.config import AVAILABLE_LIVE_MODELS, DEFAULT_BASELINE_MODELS
 from app.eval.mock_models import MOCK_MODELS, evaluate_mock_model
 from app.eval.prompts import PROMPT_VERSION
 from app.models.challenge import Challenge, ModelPrediction
 from app.models.eval_run import EvalRun
-
-DEFAULT_BASELINE_MODELS: list[str] = [
-    "mock-frontier-v1",
-    "mock-compact-v1",
-    "mock-heuristic-v1",
-]
 
 
 def run_baseline_models_for_challenge(

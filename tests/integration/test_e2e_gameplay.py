@@ -313,7 +313,7 @@ async def test_end_to_end_gameplay_and_verification_flow(e2e_db):
         assert ver_data["is_verified"] is True
         assert ver_data["status"] == "verified"
         assert ver_data["total_attempts"] == 30
-        assert ver_data["cumulative_accuracy"] == 80.0
+        assert ver_data["cumulative_accuracy"] == 0.8
         assert ver_data["round_scores"]["round_1"] == 8
         assert ver_data["round_scores"]["round_2"] == 8
         assert ver_data["round_scores"]["round_3"] == 8
@@ -397,7 +397,7 @@ async def test_end_to_end_gameplay_and_verification_flow(e2e_db):
             assert p2_ver_data["is_verified"] is False
             assert p2_ver_data["status"] == "failed"
             assert p2_ver_data["total_attempts"] == 30
-            assert p2_ver_data["cumulative_accuracy"] == 50.0
+            assert p2_ver_data["cumulative_accuracy"] == 0.5
             assert p2_ver_data["round_scores"]["round_1"] == 5
             assert p2_ver_data["round_scores"]["round_2"] == 5
             assert p2_ver_data["round_scores"]["round_3"] == 5

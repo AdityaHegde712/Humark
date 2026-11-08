@@ -214,7 +214,7 @@ def test_verification_threshold_pass(seeded_db_30):
     assert result.is_verified is True
     assert result.total_attempts == 30
     assert result.correct_attempts == 22
-    assert result.cumulative_accuracy == pytest.approx(73.33, rel=1e-2)
+    assert result.cumulative_accuracy == pytest.approx(0.7333, rel=1e-2)
     assert result.round_1_correct == 8
     assert result.round_2_correct == 7
     assert result.round_3_correct == 7
@@ -254,7 +254,7 @@ def test_verification_threshold_fail(seeded_db_30):
     assert result.is_verified is False
     assert result.total_attempts == 30
     assert result.correct_attempts == 21
-    assert result.cumulative_accuracy == pytest.approx(70.0, rel=1e-2)
+    assert result.cumulative_accuracy == pytest.approx(0.7000, rel=1e-2)
 
     seeded_db_30.refresh(session)
     assert session.status == "failed"
@@ -304,7 +304,7 @@ def test_get_verification_status_progression(seeded_db_30):
     assert status_1.is_completed is False
     assert status_1.total_attempts == 10
     assert status_1.round_scores["round_1"] == 8
-    assert status_1.cumulative_accuracy == 80.0
+    assert status_1.cumulative_accuracy == pytest.approx(0.8, rel=1e-2)
 
 
 # ---------------------------------------------------------------------------

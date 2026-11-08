@@ -149,7 +149,7 @@ OPENROUTER_API_KEY=sk-or-v1-...
 ```
 
 ### 2. Configure Pinned Models
-Add your desired multimodal model identifiers to `backend/app/eval/runner.py`:
+Add your desired multimodal model identifiers to `backend/app/core/config.py`:
 ```python
 AVAILABLE_LIVE_MODELS = [
     "google/gemini-2.0-flash-exp:free",

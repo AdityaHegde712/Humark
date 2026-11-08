@@ -63,3 +63,8 @@
   - Acceptance Criteria: All 72 SVGs parse with zero XML errors; PercentileCurve renders clean Unicode; Wilson confidence intervals display valid bounds without NaN; seed dataset balanced 18 A / 18 B; navigation toggle hides at item 30 and auto-advances incomplete rounds.
   - File Paths: `backend/app/static/thumbnails/*.svg`, `frontend/src/components/PercentileCurve.tsx`, `frontend/src/api/types.ts`, `frontend/src/components/Scorecard.tsx`, `backend/data/seed_challenges.json`, `frontend/src/components/Header.tsx`, `frontend/src/pages/GamePage.tsx`, `docs/BUGLOG.md`
 
+## Phase 10: Model Comparator Dropdown & Configuration Isolation
+- [x] Task 15: Fix cumulative percentage math, isolate config.py, and build scorecard model comparator dropdown
+  - Acceptance Criteria: Fix 8333.0% math bug in verification and badge; isolate model lists and env in `backend/app/core/config.py`; add dynamic model comparator dropdown in `frontend/src/components/Scorecard.tsx` allowing instant switching between evaluated models; contract tests passing.
+  - File Paths: `backend/app/core/config.py`, `backend/app/core/verification.py`, `frontend/src/components/VerificationBadge.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_verification.py`
+

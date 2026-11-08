@@ -85,3 +85,9 @@ It operates as a monorepo containing a FastAPI backend, PostgreSQL database, and
   - Affected paths: `backend/app/models/challenge.py`, `backend/app/schemas/challenge.py`, `backend/app/core/motif_analysis.py`, `backend/app/schemas/scorecard.py`, `backend/app/core/scoring.py`, `backend/data/seed_challenges.json`, `frontend/src/api/types.ts`, `frontend/src/components/MotifBreakdown.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_motif_analysis.py`
   - Completed: Task 12 (Percentile curve), Task 13 (Landing hero), Task 14 (Visual motif tagging & failure mode analysis engine)
   - Exit criteria: 36 seed challenges tagged across 4 canonical visual motifs; motif breakdown computes human vs frontier AI advantage; scorecard displays "Where Human Intuition Beats Frontier AI" with dual perceptual/algorithmic strengths; all contract tests pass; frontend builds with 0 errors.
+
+- **Phase 10: Model Comparator Dropdown & Configuration Isolation (COMPLETED)**
+  - Dependency: Phase 8 & 9
+  - Affected paths: `backend/app/core/config.py`, `backend/app/core/verification.py`, `frontend/src/components/VerificationBadge.tsx`, `frontend/src/components/Scorecard.tsx`, `backend/app/schemas/scorecard.py`, `backend/app/core/scoring.py`, `frontend/src/api/types.ts`, `tests/spec/test_verification.py`, `docs/BUGLOG.md`
+  - Completed: Task 15 (Verification math proportion fix, Pydantic settings config isolation, scorecard dynamic model comparator dropdown, buglog B-004)
+  - Exit criteria: `cumulative_accuracy` standardized to unit proportion in `[0.0, 1.0]`; VerificationBadge safely displays "83.3%" without double multiplication; Pydantic settings isolates config and model lists; Scorecard allows selecting comparison models and highlighting delta bars; all 88 pytest tests pass; frontend builds with 0 errors.

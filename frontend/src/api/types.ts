@@ -153,6 +153,7 @@ export interface ScorecardResponse {
   status: string;
   is_verified: boolean;
   model_comparisons: ModelComparisonItem[];
+  available_models?: string[];
   category_breakdown: CategoryBreakdownItem[];
   motif_breakdown?: MotifPerformanceItem[];
   verification_audit: VerificationAuditSummary | null;

@@ -14,6 +14,7 @@ from app.api.challenges import router as challenges_router
 from app.api.scorecard import router as scorecard_router
 from app.api.sessions import router as sessions_router
 from app.api.verification import router as verification_router
+from app.core.config import settings
 from app.db.session import init_db
 
 
@@ -40,14 +41,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Parse CORS origins from environment or default to local Vite dev server
-cors_origins_env = os.getenv(
-    "CORS_ORIGINS",
-    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8001,http://127.0.0.1:8001,http://localhost:8000,http://127.0.0.1:8000",
-)
-allowed_origins: list[str] = [
-    origin.strip() for origin in cors_origins_env.split(",") if origin.strip()
-]
+# Parse CORS origins from central configuration settings
+allowed_origins: list[str] = settings.cors_origins_list
 
 app.add_middleware(
     CORSMiddleware,

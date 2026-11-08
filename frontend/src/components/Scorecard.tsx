@@ -100,6 +100,19 @@ export const Scorecard: React.FC<ScorecardProps> = ({
     );
   };
 
+  // Helper to resolve clean display names for vision models
+  const formatModelName = (name: string): string => {
+    const map: Record<string, string> = {
+      'mock-frontier-v1': 'Frontier Vision (GPT-4o)',
+      'mock-compact-v1': 'Compact Vision (Claude 3.5 Haiku)',
+      'mock-heuristic-v1': 'Heuristic Baseline',
+      'google/gemini-2.0-flash-exp:free': 'Gemini 2.0 Flash (Free)',
+      'meta-llama/llama-3.2-11b-vision-instruct:free': 'Llama 3.2 11B Vision (Free)',
+      'openai/gpt-4o-mini': 'GPT-4o Mini',
+    };
+    return map[name] || name;
+  };
+
   // Canonical baseline models
   const defaultModels: ModelComparisonItem[] = [
     {
@@ -135,6 +148,33 @@ export const Scorecard: React.FC<ScorecardProps> = ({
     scorecard.model_comparisons && scorecard.model_comparisons.length > 0
       ? scorecard.model_comparisons
       : defaultModels;
+
+  // Model comparator options & active selection state
+  const rawModelOptions = Array.from(
+    new Set([
+      ...(scorecard.available_models || []),
+      ...modelsToDisplay.map((m) => m.model_name),
+    ])
+  );
+  const modelOptions =
+    rawModelOptions.length > 0
+      ? rawModelOptions
+      : ['mock-frontier-v1', 'mock-compact-v1', 'mock-heuristic-v1'];
+
+  const [selectedModelName, setSelectedModelName] = useState<string>(() => {
+    return (
+      scorecard.available_models?.[0] ||
+      modelsToDisplay[0]?.model_name ||
+      'mock-frontier-v1'
+    );
+  });
+
+  const selectedModel =
+    modelsToDisplay.find(
+      (m) =>
+        m.model_name === selectedModelName ||
+        formatModelName(m.model_name) === formatModelName(selectedModelName)
+    ) || modelsToDisplay[0];
 
   return (
     <div className={`w-full max-w-4xl mx-auto space-y-8 ${className}`}>
@@ -382,9 +422,75 @@ export const Scorecard: React.FC<ScorecardProps> = ({
           </p>
         </div>
 
+        {/* Primary Model Comparator Dropdown */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 rounded-xl border border-[#27272a] bg-[#121212]">
+          <div>
+            <label
+              htmlFor="model-comparator-select"
+              className="text-xs font-semibold text-[#f4f4f5] uppercase tracking-wider font-mono flex items-center space-x-2"
+            >
+              <span>Primary Comparison Model:</span>
+            </label>
+            <p className="text-[11px] text-[#71717a] mt-0.5">
+              Select an AI vision model to highlight and contrast against your decision record
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <select
+              id="model-comparator-select"
+              value={selectedModelName}
+              onChange={(e) => setSelectedModelName(e.target.value)}
+              className="bg-[#18181b] border border-neutral-700 hover:border-emerald-500/50 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-xs text-[#f4f4f5] font-medium rounded-lg px-3.5 py-2.5 transition-all outline-none cursor-pointer"
+            >
+              {modelOptions.map((modelName) => (
+                <option key={modelName} value={modelName} className="bg-[#18181b] text-white">
+                  {formatModelName(modelName)}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Featured Head-to-Head Metric for Selected Model */}
+        {selectedModel && (
+          <div className="p-4 rounded-xl border border-emerald-500/40 bg-emerald-950/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 shadow-[0_0_20px_rgba(16,185,129,0.08)]">
+            <div className="space-y-1">
+              <div className="flex items-center space-x-2">
+                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  Featured Head-to-Head:
+                </span>
+                <span className="font-bold text-[#f4f4f5] text-sm">
+                  {formatModelName(selectedModel.model_name)}
+                </span>
+              </div>
+              <div className="text-xs text-[#a1a1aa] flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span>
+                  Your Accuracy: <strong className="text-white font-mono">{accuracyPct}%</strong>
+                </span>
+                <span>&bull;</span>
+                <span>
+                  Model Accuracy:{' '}
+                  <strong className="text-white font-mono">
+                    {(selectedModel.model_accuracy * 100).toFixed(1)}%
+                  </strong>
+                </span>
+                <span>&bull;</span>
+                <span>
+                  Wins: <strong className="text-emerald-400 font-mono">{selectedModel.user_beat_model}</strong> | Ties: <strong className="text-white font-mono">{selectedModel.ties}</strong> | Losses: <strong className="text-rose-400 font-mono">{selectedModel.model_beat_user}</strong>
+                </span>
+              </div>
+            </div>
+            <div>{renderDeltaPill(selectedModel.accuracy_delta)}</div>
+          </div>
+        )}
+
         {/* Model Matchup Cards */}
         <div className="grid grid-cols-1 gap-4">
           {modelsToDisplay.map((model) => {
+            const isSelected =
+              model.model_name === selectedModel?.model_name ||
+              formatModelName(model.model_name) === formatModelName(selectedModel?.model_name);
             const totalMatchups = model.user_beat_model + model.ties + model.model_beat_user;
             const modelAccPct = (model.model_accuracy * 100).toFixed(1);
 
@@ -395,12 +501,24 @@ export const Scorecard: React.FC<ScorecardProps> = ({
             return (
               <div
                 key={model.model_name}
-                className="p-5 rounded-xl border border-[#27272a] bg-[#121212] space-y-4 hover:border-neutral-700 transition-colors"
+                onClick={() => setSelectedModelName(model.model_name)}
+                className={`p-5 rounded-xl border transition-all cursor-pointer space-y-4 ${
+                  isSelected
+                    ? 'border-emerald-500/70 bg-gradient-to-r from-emerald-950/20 via-[#18181b] to-[#121212] ring-2 ring-emerald-500/40 shadow-[0_0_25px_rgba(16,185,129,0.15)]'
+                    : 'border-[#27272a] bg-[#121212] hover:border-neutral-700'
+                }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
-                      <span className="font-bold text-[#f4f4f5] text-base">{model.model_name}</span>
+                      <span className="font-bold text-[#f4f4f5] text-base">
+                        {formatModelName(model.model_name)}
+                      </span>
+                      {isSelected && (
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                          Primary Comparison
+                        </span>
+                      )}
                       <span className="text-xs px-2 py-0.5 rounded bg-[#27272a] text-[#a1a1aa] font-mono">
                         Model Acc: {modelAccPct}%
                       </span>
@@ -448,16 +566,24 @@ export const Scorecard: React.FC<ScorecardProps> = ({
                   </div>
                 </div>
 
-                {/* Visual Win Bar */}
+                {/* Visual Win Bar (Focused if selected) */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between text-[11px] text-[#71717a]">
-                    <span>Outcome Proportion</span>
-                    <span>
+                    <span className={isSelected ? 'text-emerald-300 font-medium' : ''}>
+                      {isSelected ? 'Focused Outcome Proportion' : 'Outcome Proportion'}
+                    </span>
+                    <span className={isSelected ? 'text-[#e0e0e0] font-mono' : ''}>
                       Beats: {model.user_beat_model} | Ties: {model.ties} | Losses:{' '}
                       {model.model_beat_user}
                     </span>
                   </div>
-                  <div className="w-full h-2.5 rounded-full overflow-hidden flex bg-neutral-800">
+                  <div
+                    className={`w-full rounded-full overflow-hidden flex bg-neutral-800 transition-all ${
+                      isSelected
+                        ? 'h-3.5 ring-2 ring-emerald-500/40 shadow-sm'
+                        : 'h-2.5'
+                    }`}
+                  >
                     <div
                       className="bg-emerald-500 h-full transition-all duration-300"
                       style={{ width: `${userWinPct}%` }}

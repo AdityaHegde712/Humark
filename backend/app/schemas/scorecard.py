@@ -126,6 +126,10 @@ class ScorecardResponse(BaseModel):
         default_factory=list,
         description="Head-to-head comparison records against baseline models",
     )
+    available_models: list[str] = Field(
+        default_factory=list,
+        description="Distinct model names with predictions for attempted challenges",
+    )
     category_breakdown: list[CategoryBreakdownItem] = Field(
         default_factory=list,
         description="Accuracy metrics aggregated by challenge category",

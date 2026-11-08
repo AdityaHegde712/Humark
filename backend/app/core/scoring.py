@@ -130,7 +130,18 @@ def calculate_session_scorecard(db: Session, session_id: str) -> ScorecardRespon
 
     # Head-to-head model comparison
     model_comparisons: list[ModelComparisonItem] = []
+    available_models: list[str] = []
     if challenge_ids:
+        available_models = sorted(
+            [
+                row[0]
+                for row in db.query(ModelPrediction.model_name)
+                .filter(ModelPrediction.challenge_id.in_(challenge_ids))
+                .distinct()
+                .all()
+                if row[0]
+            ]
+        )
         predictions = (
             db.query(ModelPrediction)
             .filter(ModelPrediction.challenge_id.in_(challenge_ids))
@@ -243,6 +254,7 @@ def calculate_session_scorecard(db: Session, session_id: str) -> ScorecardRespon
         status=session.status,
         is_verified=is_verified,
         model_comparisons=model_comparisons,
+        available_models=available_models,
         category_breakdown=category_breakdown,
         motif_breakdown=motif_breakdown,
         percentile_benchmark=percentile_benchmark,
