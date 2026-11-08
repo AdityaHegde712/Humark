@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { AlertCircle } from 'lucide-react';
 import Header from '../components/Header';
+import LandingHero from '../components/LandingHero';
 import ChallengeCard from '../components/ChallengeCard';
 import ReceiptModal from '../components/ReceiptModal';
 import Scorecard from '../components/Scorecard';
@@ -18,6 +19,7 @@ export const GamePage: React.FC = () => {
   const [lastReceipt, setLastReceipt] = useState<AttemptReceipt | null>(null);
   const [scorecard, setScorecard] = useState<ScorecardResponse | null>(null);
   const [activeView, setActiveView] = useState<'challenge' | 'scorecard'>('challenge');
+  const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [isSharedView, setIsSharedView] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -33,10 +35,12 @@ export const GamePage: React.FC = () => {
       const searchParams = new URLSearchParams(window.location.search);
       const sharedSessionId = searchParams.get('session');
       const viewParam = searchParams.get('view');
+      const hasUrlParams = Boolean(sharedSessionId || viewParam === 'scorecard');
 
       // 1. Shared Scorecard Mode: direct inspect without overwriting active session
       if (sharedSessionId) {
         setIsSharedView(true);
+        setHasStarted(true);
         const sc = await apiClient.getScorecard(sharedSessionId);
         setScorecard(sc);
         setActiveView('scorecard');
@@ -49,6 +53,13 @@ export const GamePage: React.FC = () => {
       // 2. Initialize or retrieve current guest session
       const sessionData = await apiClient.initSession();
       setSession(sessionData);
+
+      // Default hasStarted: true if user has existing attempts or explicit URL params, else false
+      if (sessionData.total_attempts > 0 || hasUrlParams) {
+        setHasStarted(true);
+      } else {
+        setHasStarted(false);
+      }
 
       // 3. Fetch next unseen challenge in session
       const nextChallenge = await apiClient.getNextChallenge();
@@ -179,6 +190,7 @@ export const GamePage: React.FC = () => {
       const nextChallenge = await apiClient.getNextChallenge();
       setChallenge(nextChallenge);
       setActiveView('challenge');
+      setHasStarted(true);
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'Failed to reset benchmark run';
       setError(msg);
@@ -271,8 +283,13 @@ export const GamePage: React.FC = () => {
           </div>
         )}
 
+        {/* VIEW 0: LANDING HERO (WHEN NOT STARTED) */}
+        {!isLoading && !hasStarted && (
+          <LandingHero onStart={() => setHasStarted(true)} />
+        )}
+
         {/* VIEW 1: SCORECARD VIEW */}
-        {!isLoading && activeView === 'scorecard' && (
+        {!isLoading && hasStarted && activeView === 'scorecard' && (
           scorecard ? (
             <Scorecard
               scorecard={scorecard}
@@ -296,7 +313,7 @@ export const GamePage: React.FC = () => {
         )}
 
         {/* VIEW 2: ACTIVE CHALLENGE SCREEN */}
-        {!isLoading && activeView === 'challenge' && challenge && !challenge.round_completed && (
+        {!isLoading && hasStarted && activeView === 'challenge' && challenge && !challenge.round_completed && (
           <div className="w-full flex flex-col space-y-6">
             {/* Ground Truth Receipt Modal & Model Comparison Reveal */}
             {lastReceipt && (
@@ -322,7 +339,7 @@ export const GamePage: React.FC = () => {
         )}
 
         {/* VIEW 3: ACTIVE VIEW IS CHALLENGE BUT ROUND IS COMPLETED */}
-        {!isLoading && activeView === 'challenge' && challenge && challenge.round_completed && (
+        {!isLoading && hasStarted && activeView === 'challenge' && challenge && challenge.round_completed && (
           scorecard ? (
             <Scorecard
               scorecard={scorecard}

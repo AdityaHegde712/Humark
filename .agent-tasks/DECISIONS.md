@@ -63,6 +63,18 @@
 - **Decision**: Model human baseline distribution as a Gaussian $\mathcal{N}(\mu=0.528, \sigma=0.094)$ anchored on empirical trial results. Compute user percentile ranking, distance to frontier AI, and render an interactive SVG bell curve visualization on the scorecard.
 - **Consequences**: Connects user scorecard directly to the viral benchmark narrative.
 
+## ADR-011: Landing Page & Progressive Onboarding
+- **Status**: Accepted
+- **Context**: First-time visitors need an immediate hook explaining the benchmark rationale (WONO 7,030 human trial) and an inviting CTA to launch Round 1 without friction.
+- **Decision**: Render a dark minimal landing hero (`LandingHero.tsx`) when a guest has 0 attempts and no active challenge in flight. Clicking "Start Challenge" initializes the session and seamlessly displays Round 1 Item 1. Returning participants or participants mid-run resume directly in the game loop.
+- **Consequences**: High-converting visitor experience matching the Lovable demo flow.
+
+## ADR-012: Visual Motif Categorization & Failure-Mode Analysis
+- **Status**: Accepted
+- **Context**: Explaining *why* humans beat frontier AI requires categorizing challenges by perceptual design motifs.
+- **Decision**: Tag challenges with primary visual motifs (`face_emotion`, `curiosity_gap`, `text_contrast`, `minimalism`). The scoring engine aggregates human accuracy versus baseline AI accuracy across each motif, presenting an empirical "Where Human Intuition Beats AI" breakdown on the scorecard.
+- **Consequences**: Delivers deep qualitative explainability on human vs. machine visual reasoning.
+
 ## ADR-011: Strict Asset XML Escaping & Seed Stratification
 - **Status**: Accepted
 - **Context**: Visual benchmark assets must pass strict XML parsers, and evaluation seed datasets must be stratified 50/50 across choice variants to prevent heuristic positional bias.

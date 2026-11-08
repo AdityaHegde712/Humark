@@ -47,10 +47,16 @@
   - Acceptance Criteria: `docker compose up` verified working end-to-end; comprehensive README with architecture, stats explanation, and model integration guide; CODEBASE.md generated.
   - File Paths: `README.md`, `CODEBASE.md`, `tests/integration/test_e2e_gameplay.py`
 
-## Phase 8: Feature Deepening — The "Top 2% Human Edge" Percentile Engine
+## Phase 8: Feature Deepening — Benchmark Hook & Analytical Rigor
 - [x] Task 12: Implement human percentile ranking engine and SVG distribution curve on scorecard
   - Acceptance Criteria: Computes percentile ranking against the 7,030-participant WONO benchmark distribution ($\mu=0.528, \sigma=0.094$); marks Top 2% threshold; renders interactive SVG bell curve on the scorecard marking Human Median, Frontier AI, and User standing; contracts tested in pytest.
   - File Paths: `backend/app/core/percentile.py`, `backend/app/schemas/scorecard.py`, `backend/app/core/scoring.py`, `frontend/src/components/PercentileCurve.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_percentile.py`
+- [x] Task 13: Build high-conversion dark minimal landing page with benchmark hook and instant play CTA
+  - Acceptance Criteria: Displays hero with WONO 7,030-participant benchmark hook ("Can You Beat Frontier AI?"), trust badges (N >= 20k, p < 0.05), mini sample A/B preview card, and on-theme "Start Challenge (~30s)" CTA that transitions directly into Round 1 Item 1 without signup.
+  - File Paths: `frontend/src/components/LandingHero.tsx`, `frontend/src/pages/GamePage.tsx`
+- [ ] Task 14: Visual motif tagging and failure-mode analysis engine
+  - Acceptance Criteria: Tag seed challenges with design motifs (`face_emotion`, `curiosity_gap`, `text_contrast`, `minimalism`); backend computes human vs model accuracy per motif tag; scorecard displays "Where Human Intuition Beats AI" vs "Where AI Wins" failure mode breakdown table.
+  - File Paths: `backend/app/models/challenge.py`, `backend/data/seed_challenges.json`, `backend/app/core/motif_analysis.py`, `backend/app/schemas/scorecard.py`, `frontend/src/components/MotifBreakdown.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_motif_analysis.py`
 
 ## Phase 9: Quality Hardening & Bug Fixes (B-003)
 - [x] Task 13: Resolve SVG entity errors, LaTeX math rendering, Wilson interval naming divergence, dataset bias, and round navigation
