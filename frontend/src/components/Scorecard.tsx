@@ -17,6 +17,7 @@ import {
 import { ScorecardResponse, ModelComparisonItem } from '../api/types';
 import VerificationBadge from './VerificationBadge';
 import PercentileCurve from './PercentileCurve';
+import MotifBreakdown from './MotifBreakdown';
 
 export interface ScorecardProps {
   scorecard: ScorecardResponse;
@@ -479,6 +480,11 @@ export const Scorecard: React.FC<ScorecardProps> = ({
           })}
         </div>
       </div>
+
+      {/* Visual Motif Tagging & Failure Mode Breakdown */}
+      {scorecard.motif_breakdown && scorecard.motif_breakdown.length > 0 && (
+        <MotifBreakdown items={scorecard.motif_breakdown} />
+      )}
 
       {/* Verification Track Next Steps & Actions */}
       <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6 sm:p-8 space-y-6">

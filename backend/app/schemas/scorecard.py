@@ -54,6 +54,30 @@ class CategoryBreakdownItem(BaseModel):
     accuracy: float = Field(description="Accuracy in this category")
 
 
+class MotifPerformanceItem(BaseModel):
+    """Performance breakdown and AI comparative telemetry for a visual design motif."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    motif: str = Field(description="Canonical visual motif identifier")
+    motif_name: str = Field(description="Human-readable display name for the motif")
+    total_attempts: int = Field(description="Total attempts attempted with this motif")
+    user_correct: int = Field(description="Total correct user answers for this motif")
+    user_accuracy: float = Field(description="User accuracy ratio (0.0 - 1.0)")
+    frontier_accuracy: float = Field(
+        description="Frontier AI accuracy on the exact same challenge items"
+    )
+    accuracy_delta: float = Field(
+        description="user_accuracy - frontier_accuracy (positive indicates human advantage)"
+    )
+    verdict: Literal["human_dominant", "ai_dominant", "parity"] = Field(
+        description="Empirical advantage verdict"
+    )
+    insight: str = Field(
+        description="Cognitive design explanation and psychological insight"
+    )
+
+
 class VerificationAuditSummary(BaseModel):
     """Summary of tamper-evident verification audit receipt."""
 
@@ -105,6 +129,10 @@ class ScorecardResponse(BaseModel):
     category_breakdown: list[CategoryBreakdownItem] = Field(
         default_factory=list,
         description="Accuracy metrics aggregated by challenge category",
+    )
+    motif_breakdown: list[MotifPerformanceItem] = Field(
+        default_factory=list,
+        description="Performance breakdown across visual design motifs",
     )
     verification_audit: VerificationAuditSummary | None = Field(
         default=None,

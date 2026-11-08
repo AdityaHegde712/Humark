@@ -27,6 +27,11 @@ class Challenge(Base):
         nullable=False,
         index=True,
     )
+    primary_motif: Mapped[str] = mapped_column(
+        String(64),
+        default="visual_contrast",
+        nullable=False,
+    )
     thumbnail_a_url: Mapped[str] = mapped_column(String(512), nullable=False)
     thumbnail_b_url: Mapped[str] = mapped_column(String(512), nullable=False)
 

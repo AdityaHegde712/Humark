@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
+from app.core.motif_analysis import calculate_motif_breakdown
 from app.core.percentile import calculate_human_percentile
 from app.core.stats import calculate_wilson_score_interval
 from app.core.verification import (
@@ -228,6 +229,8 @@ def calculate_session_scorecard(db: Session, session_id: str) -> ScorecardRespon
             )
         )
 
+    motif_breakdown = calculate_motif_breakdown(db, session.id)
+
     return ScorecardResponse(
         session_id=session.id,
         total_attempts=total_attempts,
@@ -241,6 +244,7 @@ def calculate_session_scorecard(db: Session, session_id: str) -> ScorecardRespon
         is_verified=is_verified,
         model_comparisons=model_comparisons,
         category_breakdown=category_breakdown,
+        motif_breakdown=motif_breakdown,
         percentile_benchmark=percentile_benchmark,
         verification_audit=verification_audit_summary,
         verification_hash=verification_hash,

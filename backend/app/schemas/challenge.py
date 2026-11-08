@@ -32,6 +32,7 @@ class ChallengeCreate(BaseModel):
     id: str | None = None
     title: str = Field(..., min_length=3, max_length=255)
     category: str = Field(default="youtube_thumbnails", max_length=64)
+    primary_motif: str = Field(default="visual_contrast", max_length=64)
     thumbnail_a_url: str = Field(..., min_length=1, max_length=512)
     thumbnail_b_url: str = Field(..., min_length=1, max_length=512)
     impressions_a: int = Field(..., ge=0)
@@ -99,6 +100,7 @@ class ChallengeReceipt(BaseModel):
     id: str
     title: str
     category: str
+    primary_motif: str = "visual_contrast"
     thumbnail_a_url: str
     thumbnail_b_url: str
     impressions_a: int

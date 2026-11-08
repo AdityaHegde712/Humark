@@ -9,7 +9,8 @@
     "clicks_a": 5456,
     "impressions_b": 62000,
     "clicks_b": 4402,
-    "provenance_source": "Creator Studio A/B Benchmark #001 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #001 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000002",
@@ -21,7 +22,8 @@
     "clicks_a": 4968,
     "impressions_b": 54000,
     "clicks_b": 4050,
-    "provenance_source": "Creator Studio A/B Benchmark #002 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #002 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000003",
@@ -33,7 +35,8 @@
     "clicks_a": 5304,
     "impressions_b": 78000,
     "clicks_b": 6708,
-    "provenance_source": "Creator Studio A/B Benchmark #003 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #003 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000004",
@@ -45,7 +48,8 @@
     "clicks_a": 7790,
     "impressions_b": 95000,
     "clicks_b": 9880,
-    "provenance_source": "Creator Studio A/B Benchmark #004 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #004 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000005",
@@ -57,7 +61,8 @@
     "clicks_a": 3792,
     "impressions_b": 48000,
     "clicks_b": 3024,
-    "provenance_source": "Creator Studio A/B Benchmark #005 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #005 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000006",
@@ -69,7 +74,8 @@
     "clicks_a": 4615,
     "impressions_b": 71000,
     "clicks_b": 5893,
-    "provenance_source": "Creator Studio A/B Benchmark #006 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #006 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000007",
@@ -81,7 +87,8 @@
     "clicks_a": 4085,
     "impressions_b": 43000,
     "clicks_b": 3311,
-    "provenance_source": "Creator Studio A/B Benchmark #007 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #007 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000008",
@@ -93,7 +100,8 @@
     "clicks_a": 3640,
     "impressions_b": 52000,
     "clicks_b": 4628,
-    "provenance_source": "Creator Studio A/B Benchmark #008 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #008 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000009",
@@ -105,7 +113,8 @@
     "clicks_a": 2242,
     "impressions_b": 38000,
     "clicks_b": 2888,
-    "provenance_source": "Creator Studio A/B Benchmark #009 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #009 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000010",
@@ -117,7 +126,8 @@
     "clicks_a": 4224,
     "impressions_b": 64000,
     "clicks_b": 5376,
-    "provenance_source": "Creator Studio A/B Benchmark #010 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #010 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000011",
@@ -129,7 +139,8 @@
     "clicks_a": 6336,
     "impressions_b": 88000,
     "clicks_b": 8008,
-    "provenance_source": "Creator Studio A/B Benchmark #011 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #011 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000012",
@@ -141,7 +152,8 @@
     "clicks_a": 9790,
     "impressions_b": 110000,
     "clicks_b": 12320,
-    "provenance_source": "Creator Studio A/B Benchmark #012 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #012 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000013",
@@ -153,7 +165,8 @@
     "clicks_a": 4959,
     "impressions_b": 57000,
     "clicks_b": 3933,
-    "provenance_source": "Creator Studio A/B Benchmark #013 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #013 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000014",
@@ -165,7 +178,8 @@
     "clicks_a": 2944,
     "impressions_b": 46000,
     "clicks_b": 3726,
-    "provenance_source": "Creator Studio A/B Benchmark #014 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #014 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000015",
@@ -177,7 +191,8 @@
     "clicks_a": 8036,
     "impressions_b": 82000,
     "clicks_b": 6232,
-    "provenance_source": "Creator Studio A/B Benchmark #015 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #015 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000016",
@@ -189,7 +204,8 @@
     "clicks_a": 7644,
     "impressions_b": 91000,
     "clicks_b": 9373,
-    "provenance_source": "Creator Studio A/B Benchmark #016 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #016 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000017",
@@ -201,7 +217,8 @@
     "clicks_a": 5402,
     "impressions_b": 73000,
     "clicks_b": 6789,
-    "provenance_source": "Creator Studio A/B Benchmark #017 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #017 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000018",
@@ -213,7 +230,8 @@
     "clicks_a": 4891,
     "impressions_b": 67000,
     "clicks_b": 6097,
-    "provenance_source": "Creator Studio A/B Benchmark #018 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #018 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000019",
@@ -225,7 +243,8 @@
     "clicks_a": 4233,
     "impressions_b": 51000,
     "clicks_b": 3417,
-    "provenance_source": "Creator Studio A/B Benchmark #019 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #019 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000020",
@@ -237,7 +256,8 @@
     "clicks_a": 4914,
     "impressions_b": 63000,
     "clicks_b": 6048,
-    "provenance_source": "Creator Studio A/B Benchmark #020 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #020 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000021",
@@ -249,7 +269,8 @@
     "clicks_a": 6600,
     "impressions_b": 75000,
     "clicks_b": 5325,
-    "provenance_source": "Creator Studio A/B Benchmark #021 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #021 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000022",
@@ -261,7 +282,8 @@
     "clicks_a": 8925,
     "impressions_b": 105000,
     "clicks_b": 11340,
-    "provenance_source": "Creator Studio A/B Benchmark #022 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #022 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000023",
@@ -273,7 +295,8 @@
     "clicks_a": 8084,
     "impressions_b": 86000,
     "clicks_b": 6278,
-    "provenance_source": "Creator Studio A/B Benchmark #023 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #023 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000024",
@@ -285,7 +308,8 @@
     "clicks_a": 4248,
     "impressions_b": 59000,
     "clicks_b": 5251,
-    "provenance_source": "Creator Studio A/B Benchmark #024 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #024 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000025",
@@ -297,7 +321,8 @@
     "clicks_a": 6210,
     "impressions_b": 69000,
     "clicks_b": 5106,
-    "provenance_source": "Creator Studio A/B Benchmark #025 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #025 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000026",
@@ -309,7 +334,8 @@
     "clicks_a": 3657,
     "impressions_b": 53000,
     "clicks_b": 4505,
-    "provenance_source": "Creator Studio A/B Benchmark #026 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #026 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000027",
@@ -321,7 +347,8 @@
     "clicks_a": 9292,
     "impressions_b": 92000,
     "clicks_b": 7360,
-    "provenance_source": "Creator Studio A/B Benchmark #027 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #027 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000028",
@@ -333,7 +360,8 @@
     "clicks_a": 4557,
     "impressions_b": 49000,
     "clicks_b": 3675,
-    "provenance_source": "Creator Studio A/B Benchmark #028 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #028 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000029",
@@ -345,7 +373,8 @@
     "clicks_a": 5589,
     "impressions_b": 81000,
     "clicks_b": 7047,
-    "provenance_source": "Creator Studio A/B Benchmark #029 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #029 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000030",
@@ -357,7 +386,8 @@
     "clicks_a": 3784,
     "impressions_b": 44000,
     "clicks_b": 2992,
-    "provenance_source": "Creator Studio A/B Benchmark #030 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #030 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000031",
@@ -369,7 +399,8 @@
     "clicks_a": 7469,
     "impressions_b": 77000,
     "clicks_b": 6006,
-    "provenance_source": "Creator Studio A/B Benchmark #031 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #031 (DEMO DATA)",
+    "primary_motif": "text_contrast"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000032",
@@ -381,7 +412,8 @@
     "clicks_a": 5152,
     "impressions_b": 56000,
     "clicks_b": 4088,
-    "provenance_source": "Creator Studio A/B Benchmark #032 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #032 (DEMO DATA)",
+    "primary_motif": "curiosity_gap"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000033",
@@ -393,7 +425,8 @@
     "clicks_a": 12190,
     "impressions_b": 115000,
     "clicks_b": 9660,
-    "provenance_source": "Creator Studio A/B Benchmark #033 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #033 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000034",
@@ -405,7 +438,8 @@
     "clicks_a": 8874,
     "impressions_b": 87000,
     "clicks_b": 6873,
-    "provenance_source": "Creator Studio A/B Benchmark #034 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #034 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000035",
@@ -417,7 +451,8 @@
     "clicks_a": 6840,
     "impressions_b": 72000,
     "clicks_b": 5472,
-    "provenance_source": "Creator Studio A/B Benchmark #035 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #035 (DEMO DATA)",
+    "primary_motif": "face_emotion"
   },
   {
     "id": "c1000000-0000-0000-0000-000000000036",
@@ -429,6 +464,7 @@
     "clicks_a": 4686,
     "impressions_b": 66000,
     "clicks_b": 5940,
-    "provenance_source": "Creator Studio A/B Benchmark #036 (DEMO DATA)"
+    "provenance_source": "Creator Studio A/B Benchmark #036 (DEMO DATA)",
+    "primary_motif": "visual_complexity"
   }
 ]

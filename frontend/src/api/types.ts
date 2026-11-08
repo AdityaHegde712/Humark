@@ -107,6 +107,18 @@ export interface CategoryBreakdownItem {
   accuracy: number;
 }
 
+export interface MotifPerformanceItem {
+  motif: string;
+  motif_name: string;
+  total_attempts: number;
+  user_correct: number;
+  user_accuracy: number;
+  frontier_accuracy: number;
+  accuracy_delta: number;
+  verdict: 'human_dominant' | 'ai_dominant' | 'parity';
+  insight: string;
+}
+
 export interface VerificationAuditSummary {
   verification_hash: string;
   completed_at: string;
@@ -142,6 +154,7 @@ export interface ScorecardResponse {
   is_verified: boolean;
   model_comparisons: ModelComparisonItem[];
   category_breakdown: CategoryBreakdownItem[];
+  motif_breakdown?: MotifPerformanceItem[];
   verification_audit: VerificationAuditSummary | null;
   verification_hash: string | null;
 }

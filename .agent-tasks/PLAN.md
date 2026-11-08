@@ -74,8 +74,14 @@ It operates as a monorepo containing a FastAPI backend, PostgreSQL database, and
   - Completed: Task 08 (API client, dark theme shell, header, challenge card interface), Task 09 (Receipt modal and model comparison reveal), Task 10 (Scorecard view, verification badges, and round progression UI)
   - Exit criteria: Complete playable loop: Round 1 launch -> ~30s challenge card -> receipt reveal -> scorecard -> rounds 2 & 3 verification track.
 
-- **Phase 7: End-to-End Hardening & Documentation (IN PROGRESS)**
+- **Phase 7: End-to-End Hardening & Documentation (COMPLETED)**
   - Dependency: Phase 6
   - Affected paths: `tests/integration/test_e2e_gameplay.py`, `backend/app/main.py`, `backend/app/scripts/seed.py`, `docker-compose.yml`, `README.md`, `CODEBASE.md`
   - Completed: Task 11 (E2E 3-round gameplay integration test and seed automation)
   - Exit criteria: Production readiness review passes; zero-setup `docker compose up` verified on clean clone; all unit, spec, and integration tests pass.
+
+- **Phase 8: Feature Deepening & Visual Motif Analysis (COMPLETED)**
+  - Dependency: Phase 7
+  - Affected paths: `backend/app/models/challenge.py`, `backend/app/schemas/challenge.py`, `backend/app/core/motif_analysis.py`, `backend/app/schemas/scorecard.py`, `backend/app/core/scoring.py`, `backend/data/seed_challenges.json`, `frontend/src/api/types.ts`, `frontend/src/components/MotifBreakdown.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_motif_analysis.py`
+  - Completed: Task 12 (Percentile curve), Task 13 (Landing hero), Task 14 (Visual motif tagging & failure mode analysis engine)
+  - Exit criteria: 36 seed challenges tagged across 4 canonical visual motifs; motif breakdown computes human vs frontier AI advantage; scorecard displays "Where Human Intuition Beats Frontier AI" with dual perceptual/algorithmic strengths; all contract tests pass; frontend builds with 0 errors.

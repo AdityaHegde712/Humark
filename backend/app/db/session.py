@@ -49,6 +49,20 @@ def init_db(target_engine=None) -> None:
     """Initialize database tables."""
     eng = target_engine or engine
     Base.metadata.create_all(bind=eng)
+    # Lightweight migration for existing SQLite databases
+    try:
+        from sqlalchemy import text
+
+        with eng.connect() as conn:
+            conn.execute(
+                text(
+                    "ALTER TABLE challenges ADD COLUMN primary_motif VARCHAR(64) DEFAULT 'visual_contrast'"
+                )
+            )
+            conn.commit()
+    except Exception:
+        # Column already exists or dialect does not require alter
+        pass
 
 
 def get_db() -> Generator[Session, None, None]:

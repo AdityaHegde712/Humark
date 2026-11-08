@@ -84,6 +84,7 @@ def ingest_challenge_item(
             id=item.id,
             title=item.title,
             category=item.category,
+            primary_motif=getattr(item, "primary_motif", "visual_contrast") or "visual_contrast",
             thumbnail_a_url=item.thumbnail_a_url,
             thumbnail_b_url=item.thumbnail_b_url,
             impressions_a=item.impressions_a,
@@ -102,6 +103,8 @@ def ingest_challenge_item(
     else:
         challenge.title = item.title
         challenge.category = item.category
+        if hasattr(item, "primary_motif") and item.primary_motif:
+            challenge.primary_motif = item.primary_motif
         challenge.thumbnail_a_url = item.thumbnail_a_url
         challenge.thumbnail_b_url = item.thumbnail_b_url
         challenge.impressions_a = item.impressions_a

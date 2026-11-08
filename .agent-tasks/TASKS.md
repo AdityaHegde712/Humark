@@ -54,9 +54,9 @@
 - [x] Task 13: Build high-conversion dark minimal landing page with benchmark hook and instant play CTA
   - Acceptance Criteria: Displays hero with WONO 7,030-participant benchmark hook ("Can You Beat Frontier AI?"), trust badges (N >= 20k, p < 0.05), mini sample A/B preview card, and on-theme "Start Challenge (~30s)" CTA that transitions directly into Round 1 Item 1 without signup.
   - File Paths: `frontend/src/components/LandingHero.tsx`, `frontend/src/pages/GamePage.tsx`
-- [ ] Task 14: Visual motif tagging and failure-mode analysis engine
-  - Acceptance Criteria: Tag seed challenges with design motifs (`face_emotion`, `curiosity_gap`, `text_contrast`, `minimalism`); backend computes human vs model accuracy per motif tag; scorecard displays "Where Human Intuition Beats AI" vs "Where AI Wins" failure mode breakdown table.
-  - File Paths: `backend/app/models/challenge.py`, `backend/data/seed_challenges.json`, `backend/app/core/motif_analysis.py`, `backend/app/schemas/scorecard.py`, `frontend/src/components/MotifBreakdown.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_motif_analysis.py`
+- [x] Task 14: Visual motif tagging and failure-mode analysis engine
+  - Acceptance Criteria: Tag seed challenges with design motifs (`face_emotion`, `curiosity_gap`, `text_contrast`, `visual_complexity`); backend computes human vs model accuracy per motif tag; scorecard displays "Where Human Intuition Beats Frontier AI" breakdown grid (Human Perceptual Strengths vs AI Algorithmic Strengths); all 36 seed challenges balanced (9 per motif); contract tests and frontend build pass with zero errors.
+  - File Paths: `backend/app/models/challenge.py`, `backend/app/schemas/challenge.py`, `backend/data/seed_challenges.json`, `backend/app/core/motif_analysis.py`, `backend/app/schemas/scorecard.py`, `backend/app/core/scoring.py`, `frontend/src/api/types.ts`, `frontend/src/components/MotifBreakdown.tsx`, `frontend/src/components/Scorecard.tsx`, `tests/spec/test_motif_analysis.py`
 
 ## Phase 9: Quality Hardening & Bug Fixes (B-003)
 - [x] Task 13: Resolve SVG entity errors, LaTeX math rendering, Wilson interval naming divergence, dataset bias, and round navigation
