@@ -1,0 +1,37 @@
+# Architecture Decision Records (ADRs)
+
+## ADR-001: Monorepo Architecture & Stack Selection
+- **Status**: Accepted
+- **Context**: Humark is an evaluation harness and portfolio project demonstrating AI infrastructure, statistical rigor, and applied ML engineering.
+- **Decision**: Monorepo with FastAPI (Python 3.11+), PostgreSQL 16, React 18+ (TypeScript, Vite, Tailwind CSS, Lucide Icons), and Docker Compose.
+- **Consequences**: Single repository, straightforward local development via `docker compose up`, zero Kubernetes overhead, unified test directory (`tests/`).
+
+## ADR-002: Statistical Significance Hard Gate (Two-Proportion Z-Test)
+- **Status**: Accepted
+- **Context**: Challenges require statistically defensible ground truth to benchmark humans against models without noise or false positive winners.
+- **Decision**: Ingestion rejects any challenge where variant sample size $N < 20,000$ impressions or two-tailed two-proportion z-test $p \ge 0.05$. Exact $z$ score, $p$-value, and standard error must be computed and stored in provenance metadata.
+- **Consequences**: Flawed or under-powered A/B tests cannot enter active challenge pools.
+
+## ADR-003: Model Baseline Runner & Deterministic Mocking
+- **Status**: Accepted
+- **Context**: The app must run completely out-of-the-box without requiring paid API keys, but support frontier multimodal models when keys are supplied.
+- **Decision**: Implement a deterministic mock vision model baseline that generates stable, reproducible predictions, tokens, and latency based on challenge hashes. Support LiteLLM / provider adapters via pinned prompt templates and versioned evaluation runs. All baseline predictions are pre-computed in Postgres and hidden from users until after they answer.
+- **Consequences**: Zero-dependency offline verification and grading; reproducible model evaluation logs.
+
+## ADR-004: Anti-Luck Verification Protocol
+- **Status**: Accepted
+- **Context**: Prevent lucky guessing and ensure skill verification across rounds.
+- **Decision**: 3 sequential rounds of 10 challenges each (30 challenges total). Unseen-item selection is strictly enforced in PostgreSQL using session attempt history. Verification requires $>70\%$ cumulative accuracy ($\ge 22/30$ correct answers) across all 3 rounds.
+- **Consequences**: Users cannot replay questions to inflate scores.
+
+## ADR-005: Scorecard Confidence Telemetry (Wilson Score Interval)
+- **Status**: Accepted
+- **Context**: Raw percentages on small sample sizes (e.g. 7/10 = 70%) misrepresent statistical confidence.
+- **Decision**: Scorecards compute Wilson score intervals at 95% confidence level alongside raw accuracy, accompanied by sample-size confidence labels.
+- **Consequences**: Rigorous statistical presentation matching AI evaluation harness standards.
+
+## ADR-006: Dark Flat UI Theme & Component Architecture
+- **Status**: Accepted
+- **Context**: Replicate the feel of the Lovable demo while adhering to User Decision Profile.
+- **Decision**: Dark minimal flat UI (`#121212` background, `#262626` hairline borders, `#e0e0e0` text, high-contrast accent), Tailwind CSS, Lucide icons, responsive card layouts, no Bootstrap.
+- **Consequences**: Clean, fast, modern developer-centric UX.
