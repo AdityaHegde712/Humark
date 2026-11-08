@@ -74,7 +74,8 @@ It operates as a monorepo containing a FastAPI backend, PostgreSQL database, and
   - Completed: Task 08 (API client, dark theme shell, header, challenge card interface), Task 09 (Receipt modal and model comparison reveal), Task 10 (Scorecard view, verification badges, and round progression UI)
   - Exit criteria: Complete playable loop: Round 1 launch -> ~30s challenge card -> receipt reveal -> scorecard -> rounds 2 & 3 verification track.
 
-- **Phase 7: End-to-End Hardening & Documentation (READY)**
+- **Phase 7: End-to-End Hardening & Documentation (IN PROGRESS)**
   - Dependency: Phase 6
-  - Affected paths: `README.md`, `CODEBASE.md`, docker verification
-  - Exit criteria: Production readiness review passes; zero-setup `docker compose up` verified on clean clone.
+  - Affected paths: `tests/integration/test_e2e_gameplay.py`, `backend/app/main.py`, `backend/app/scripts/seed.py`, `docker-compose.yml`, `README.md`, `CODEBASE.md`
+  - Completed: Task 11 (E2E 3-round gameplay integration test and seed automation)
+  - Exit criteria: Production readiness review passes; zero-setup `docker compose up` verified on clean clone; all unit, spec, and integration tests pass.

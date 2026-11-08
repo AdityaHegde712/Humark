@@ -47,3 +47,12 @@
 - **Context**: Frontier multimodal model benchmarking needs standardized access to vision models without managing multiple vendor SDKs.
 - **Decision**: OpenRouter (`OPENROUTER_API_KEY`) is the primary provider target for live frontier models; deterministic mock runner remains default zero-key runner. Real keys are never written to version control.
 - **Consequences**: Flexible multi-model access including free-tier models without vendor lock-in.
+
+## ADR-009: Automated Database Seeding & Startup Lifecycle
+- **Status**: Accepted
+- **Context**: Zero-setup developer and evaluator experience requires benchmark challenges and baseline predictions to be ready immediately on `docker compose up` without requiring manual database migration or seed commands.
+- **Decision**: Implement dual auto-seed guarantees:
+  1. `docker-compose.yml` invokes `sh -c "python -m app.scripts.seed && uvicorn app.main:app ..."` on startup.
+  2. `backend/app/main.py` FastAPI `lifespan` checks `auto_seed_if_empty()` on startup, ensuring that standalone server runs and test runners also seed automatically when encountering an unseeded database.
+  All 36 seed challenges and 108 model predictions are ingested idempotently.
+- **Consequences**: Out-of-the-box playable experience on clean clone.

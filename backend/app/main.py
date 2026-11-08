@@ -21,6 +21,15 @@ from app.db.session import init_db
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan context manager for startup and shutdown."""
     init_db()
+    if os.getenv("AUTO_SEED", "true").lower() in ("true", "1", "yes"):
+        try:
+            from app.scripts.seed import auto_seed_if_empty
+
+            auto_seed_if_empty()
+        except Exception as exc:
+            import logging
+
+            logging.getLogger("humark").warning(f"Auto-seed check failed: {exc}")
     yield
 
 

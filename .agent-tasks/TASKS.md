@@ -43,6 +43,6 @@
   - File Paths: `frontend/src/components/Scorecard.tsx`, `frontend/src/components/VerificationBadge.tsx`, `frontend/src/pages/GamePage.tsx`
 
 ## Phase 7: End-to-End Hardening & Documentation
-- [ ] Task 11: Production readiness audit, E2E verification test, and comprehensive documentation
+- [x] Task 11: Production readiness audit, E2E verification test, and comprehensive documentation
   - Acceptance Criteria: `docker compose up` verified working end-to-end; comprehensive README with architecture, stats explanation, and model integration guide; CODEBASE.md generated.
   - File Paths: `README.md`, `CODEBASE.md`, `tests/integration/test_e2e_gameplay.py`
