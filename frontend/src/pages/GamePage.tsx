@@ -2,13 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react';
 import {
   AlertCircle,
   ArrowRight,
-  CheckCircle2,
-  XCircle,
   Trophy,
   RefreshCw,
 } from 'lucide-react';
 import Header from '../components/Header';
 import ChallengeCard from '../components/ChallengeCard';
+import ReceiptModal from '../components/ReceiptModal';
 import apiClient, { ApiError } from '../api/client';
 import {
   AttemptReceipt,
@@ -239,45 +238,14 @@ export const GamePage: React.FC = () => {
         {/* Active Challenge Screen */}
         {!isLoading && challenge && !challenge.round_completed && (
           <div className="w-full flex flex-col space-y-6">
-            {/* If a decision was just submitted, display receipt transition bar */}
-            {lastReceipt ? (
-              <div className="w-full max-w-6xl mx-auto border border-[#27272a] bg-[#18181b] rounded-xl p-5 shadow-lg flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div className="flex items-center space-x-3">
-                  {lastReceipt.is_correct ? (
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0">
-                      <CheckCircle2 className="w-6 h-6" />
-                    </div>
-                  ) : (
-                    <div className="w-10 h-10 rounded-lg bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 flex-shrink-0">
-                      <XCircle className="w-6 h-6" />
-                    </div>
-                  )}
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="font-bold text-[#f4f4f5]">
-                        {lastReceipt.is_correct ? 'Correct Prediction!' : 'Incorrect Prediction'}
-                      </span>
-                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#121212] border border-[#27272a] text-[#a1a1aa]">
-                        Winner: Variant {lastReceipt.winning_variant}
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#a1a1aa] mt-0.5">
-                      Variant A CTR: {(lastReceipt.ctr_a * 100).toFixed(2)}% vs Variant B CTR:{' '}
-                      {(lastReceipt.ctr_b * 100).toFixed(2)}% (p &lt; {lastReceipt.p_value.toFixed(4)})
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleProceedNext}
-                  className="inline-flex items-center justify-center space-x-2 px-5 py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-semibold text-sm transition-colors shadow-sm self-end md:self-auto"
-                >
-                  <span>Next Challenge</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            ) : null}
+            {/* Ground Truth Receipt Modal & Model Comparison Reveal */}
+            {lastReceipt && (
+              <ReceiptModal
+                receipt={lastReceipt}
+                onNext={handleProceedNext}
+                isLoadingNext={isLoading}
+              />
+            )}
 
             {/* Challenge Card Presentation */}
             <ChallengeCard
