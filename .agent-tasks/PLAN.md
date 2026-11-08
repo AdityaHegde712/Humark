@@ -48,12 +48,12 @@ It operates as a monorepo containing a FastAPI backend, PostgreSQL database, and
   - Affected paths: `docker-compose.yml`, `backend/`, `frontend/`, `.env.example`
   - Exit criteria: Docker Compose boots Postgres, FastAPI backend, and Vite frontend with passing healthchecks.
 
-- **Phase 2: Statistical Significance Gate & Data Ingestion**
+- **Phase 2: Statistical Significance Gate & Data Ingestion (COMPLETED)**
   - Dependency: Phase 1
-  - Affected paths: `backend/app/core/stats.py`, `backend/app/api/admin.py`, `backend/data/seed_challenges.json`, `tests/spec/test_significance_gate.py`
-  - Exit criteria: Z-test significance gate rejects p >= 0.05 or N < 20,000; 30+ bundled demo items ingest successfully.
+  - Affected paths: `backend/app/core/stats.py`, `backend/app/models/challenge.py`, `backend/app/schemas/challenge.py`, `backend/app/core/ingestion.py`, `backend/app/api/admin.py`, `backend/data/seed_challenges.json`, `backend/app/static/thumbnails/`, `tests/spec/test_significance_gate.py`, `tests/spec/test_ingestion.py`
+  - Exit criteria: Z-test significance gate rejects p >= 0.05 or N < 20,000; 36 bundled demo items with 72 SVGs ingest successfully.
 
-- **Phase 3: Model Baseline Runner & Evaluation Harness**
+- **Phase 3: Model Baseline Runner & Evaluation Harness (NEXT)**
   - Dependency: Phase 2
   - Affected paths: `backend/app/eval/`, `backend/app/models/eval_run.py`, `tests/spec/test_eval_runner.py`
   - Exit criteria: Deterministic mock model produces reproducible predictions, tokens, and latency; pre-computes answers for all seed items.

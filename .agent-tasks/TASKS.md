@@ -9,7 +9,7 @@
 - [x] Task 02: Implement statistical significance engine (two-proportion z-test, Wilson intervals) and contract tests
   - Acceptance Criteria: `tests/spec/test_significance_gate.py` passes; engine rejects items where $N < 20,000$ per variant or $p \ge 0.05$; computes correct z-scores, p-values, and 95% Wilson confidence intervals.
   - File Paths: `backend/app/core/stats.py`, `tests/spec/test_significance_gate.py`
-- [ ] Task 03: Challenge data model, schema migrations, and JSON ingestion pipeline with validation errors
+- [x] Task 03: Challenge data model, schema migrations, and JSON ingestion pipeline with validation errors
   - Acceptance Criteria: PostgreSQL models for `challenges` and `model_predictions`; ingestion CLI/endpoint validates provenance, rejects invalid items with HTTP 422/CLI error; ingests 30+ seed items.
   - File Paths: `backend/app/models/challenge.py`, `backend/app/schemas/challenge.py`, `backend/app/core/ingestion.py`, `backend/data/seed_challenges.json`, `backend/app/static/thumbnails/`
 

@@ -4,15 +4,16 @@ These tests define the behavioral contract for ADR-002 (Statistical Significance
 and ADR-005 (Scorecard Confidence Telemetry).
 """
 
-import pytest
 import math
+
+import pytest
 from app.core.stats import (
-    calculate_two_proportion_z_test,
-    validate_significance_gate,
-    calculate_wilson_score_interval,
-    ZTestResult,
     GateResult,
     WilsonInterval,
+    ZTestResult,
+    calculate_two_proportion_z_test,
+    calculate_wilson_score_interval,
+    validate_significance_gate,
 )
 
 
@@ -142,7 +143,10 @@ class TestSignificanceGate:
 
         assert gate.is_valid is False
         assert gate.rejection_reason is not None
-        assert "19999" in gate.rejection_reason or "variant b" in gate.rejection_reason.lower()
+        assert (
+            "19999" in gate.rejection_reason
+            or "variant b" in gate.rejection_reason.lower()
+        )
 
     def test_failure_due_to_p_value(self):
         """Items with sufficient impressions but p >= alpha fail the gate."""
@@ -158,7 +162,10 @@ class TestSignificanceGate:
 
         assert gate.is_valid is False
         assert gate.rejection_reason is not None
-        assert "p-value" in gate.rejection_reason.lower() or "insignificant" in gate.rejection_reason.lower()
+        assert (
+            "p-value" in gate.rejection_reason.lower()
+            or "insignificant" in gate.rejection_reason.lower()
+        )
         assert gate.z_test_result.p_value >= 0.05
 
     def test_custom_min_impressions_and_alpha(self):
@@ -182,7 +189,9 @@ class TestWilsonScoreInterval:
 
     def test_wilson_score_perfect_success_10_of_10(self):
         """10/10 successes at 95% confidence."""
-        interval = calculate_wilson_score_interval(successes=10, total=10, confidence=0.95)
+        interval = calculate_wilson_score_interval(
+            successes=10, total=10, confidence=0.95
+        )
 
         assert isinstance(interval, WilsonInterval)
         # Wilson interval for 10/10: lower ~0.7225, upper == 1.0, center ~0.8612
@@ -193,7 +202,9 @@ class TestWilsonScoreInterval:
 
     def test_wilson_score_zero_success_0_of_10(self):
         """0/10 successes at 95% confidence."""
-        interval = calculate_wilson_score_interval(successes=0, total=10, confidence=0.95)
+        interval = calculate_wilson_score_interval(
+            successes=0, total=10, confidence=0.95
+        )
 
         # Wilson interval for 0/10: lower == 0.0, upper ~0.2775, center ~0.1388
         assert math.isclose(interval.lower, 0.0, abs_tol=1e-4)
@@ -203,7 +214,9 @@ class TestWilsonScoreInterval:
 
     def test_wilson_score_intermediate_7_of_10(self):
         """7/10 successes at 95% confidence (Game Round 1 scenario)."""
-        interval = calculate_wilson_score_interval(successes=7, total=10, confidence=0.95)
+        interval = calculate_wilson_score_interval(
+            successes=7, total=10, confidence=0.95
+        )
 
         # Wilson interval for 7/10: lower ~0.3968, upper ~0.8922, center ~0.6445
         assert math.isclose(interval.lower, 0.396778, abs_tol=1e-4)
@@ -213,7 +226,9 @@ class TestWilsonScoreInterval:
 
     def test_wilson_score_edge_case_0_of_0(self):
         """0/0 (no attempts yet) must return full span [0.0, 1.0] with center 0.5."""
-        interval = calculate_wilson_score_interval(successes=0, total=0, confidence=0.95)
+        interval = calculate_wilson_score_interval(
+            successes=0, total=0, confidence=0.95
+        )
 
         assert interval.lower == 0.0
         assert interval.upper == 1.0

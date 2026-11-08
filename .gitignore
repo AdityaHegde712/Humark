@@ -9,6 +9,9 @@ __pycache__/
 *$py.class
 *.so
 .Python
+*.db
+*.sqlite
+*.sqlite3
 env/
 build/
 develop-eggs/

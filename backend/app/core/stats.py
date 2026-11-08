@@ -9,9 +9,9 @@ This module provides implementations for:
 from __future__ import annotations
 
 import math
-from typing import Optional
-from pydantic import BaseModel, ConfigDict, Field
+
 import scipy.stats
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ZTestResult(BaseModel):
@@ -21,8 +21,12 @@ class ZTestResult(BaseModel):
 
     ctr_a: float = Field(..., description="Click-through rate of variant A.")
     ctr_b: float = Field(..., description="Click-through rate of variant B.")
-    pooled_proportion: float = Field(..., description="Combined CTR across both variants.")
-    standard_error: float = Field(..., description="Standard error under null hypothesis.")
+    pooled_proportion: float = Field(
+        ..., description="Combined CTR across both variants."
+    )
+    standard_error: float = Field(
+        ..., description="Standard error under null hypothesis."
+    )
     z_score: float = Field(..., description="Standardized test statistic.")
     p_value: float = Field(..., description="Two-tailed p-value.")
 
@@ -32,12 +36,16 @@ class GateResult(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    is_valid: bool = Field(..., description="True if challenge passes all gate criteria.")
-    rejection_reason: Optional[str] = Field(
+    is_valid: bool = Field(
+        ..., description="True if challenge passes all gate criteria."
+    )
+    rejection_reason: str | None = Field(
         default=None,
         description="Reason for rejection, or None if valid.",
     )
-    z_test_result: ZTestResult = Field(..., description="Full statistical test results.")
+    z_test_result: ZTestResult = Field(
+        ..., description="Full statistical test results."
+    )
 
 
 class WilsonInterval(BaseModel):
@@ -99,7 +107,9 @@ def calculate_two_proportion_z_test(
             p_value=1.0,
         )
 
-    variance_term = pooled_p * (1.0 - pooled_p) * (1.0 / impressions_a + 1.0 / impressions_b)
+    variance_term = (
+        pooled_p * (1.0 - pooled_p) * (1.0 / impressions_a + 1.0 / impressions_b)
+    )
     standard_error = math.sqrt(variance_term)
 
     if standard_error == 0.0:
@@ -232,7 +242,9 @@ def calculate_wilson_score_interval(
     z2 = z * z
     denominator = 1.0 + (z2 / total)
     center = (p + (z2 / (2.0 * total))) / denominator
-    margin = (z / denominator) * math.sqrt((p * (1.0 - p) / total) + (z2 / (4.0 * total * total)))
+    margin = (z / denominator) * math.sqrt(
+        (p * (1.0 - p) / total) + (z2 / (4.0 * total * total))
+    )
 
     lower = max(0.0, float(center - margin))
     upper = min(1.0, float(center + margin))

@@ -1,14 +1,30 @@
 """Humark FastAPI Application Entrypoint."""
 
 import os
-from typing import List
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
+
+from app.api.admin import router as admin_router
+from app.db.session import init_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    """Application lifespan context manager for startup and shutdown."""
+    init_db()
+    yield
+
 
 app = FastAPI(
     title="Humark API",
     description="Human vs AI YouTube Thumbnail Benchmark Platform",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 # Parse CORS origins from environment or default to local Vite dev server
@@ -16,7 +32,9 @@ cors_origins_env = os.getenv(
     "CORS_ORIGINS",
     "http://localhost:5173,http://127.0.0.1:5173",
 )
-allowed_origins: List[str] = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
+allowed_origins: list[str] = [
+    origin.strip() for origin in cors_origins_env.split(",") if origin.strip()
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,6 +43,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount static files directory for thumbnails
+static_dir = Path(__file__).resolve().parent / "static"
+static_dir.mkdir(parents=True, exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+# Include API routers
+app.include_router(admin_router)
 
 
 @app.get("/health", tags=["system"])

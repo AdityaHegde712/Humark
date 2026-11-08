@@ -1,6 +1,6 @@
 import pytest
-from httpx import AsyncClient, ASGITransport
 from app.main import app
+from httpx import ASGITransport, AsyncClient
 
 
 @pytest.mark.asyncio
@@ -26,7 +26,10 @@ async def test_cors_headers():
             },
         )
         assert response.status_code == 200
-        assert response.headers.get("access-control-allow-origin") == "http://localhost:5173"
+        assert (
+            response.headers.get("access-control-allow-origin")
+            == "http://localhost:5173"
+        )
 
         # Preflight OPTIONS request from 127.0.0.1:5173
         response_ip = await client.options(
@@ -37,4 +40,7 @@ async def test_cors_headers():
             },
         )
         assert response_ip.status_code == 200
-        assert response_ip.headers.get("access-control-allow-origin") == "http://127.0.0.1:5173"
+        assert (
+            response_ip.headers.get("access-control-allow-origin")
+            == "http://127.0.0.1:5173"
+        )

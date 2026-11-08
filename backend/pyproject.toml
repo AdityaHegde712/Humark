@@ -28,6 +28,10 @@ dev = [
     "pytest-asyncio>=0.23.0",
 ]
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests", "../tests"]
